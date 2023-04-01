@@ -1,5 +1,5 @@
 {
-    "name": "creof/wkt-parser",
+    "name": "longitude-one/wkt-parser",
     "type": "library",
     "description": "Parser for well-known text (WKT) object strings",
     "keywords": ["parser", "lexer", "string", "text", "geometry", "geography", "spatial", "wkt", "ewkt"],
@@ -10,6 +10,9 @@
         }
     ],
     "license": "MIT",
+    "replace": {
+        "creof/wkt-parser": "*"
+    },
     "require": {
         "php":            ">=5.3.3",
         "ext-SPL":        "*",
