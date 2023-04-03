@@ -21,9 +21,9 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\WKT;
+namespace LongitudeOne\Geo\WKT;
 
-use CrEOF\Geo\WKT\Exception\UnexpectedValueException;
+use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
 
 /**
  * Parse WKT/EWKT spatial object strings
