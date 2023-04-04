@@ -79,206 +79,206 @@ class LexerTest extends TestCase
      */
     public static function tokenData()
     {
-        return array(
-            'POINT' => array(
-                'value'    => 'POINT',
-                'expected' => array(
-                    array(Lexer::T_POINT, 'POINT', 0)
-                )
-            ),
-            'POINTM' => array(
-                'value'    => 'POINTM',
-                'expected' => array(
-                    array(Lexer::T_POINT, 'POINT', 0),
-                    array(Lexer::T_M, 'M', 5)
-                )
-            ),
-            'POINT M' => array(
-                'value'    => 'POINTM',
-                'expected' => array(
-                    array(Lexer::T_POINT, 'POINT', 0),
-                    array(Lexer::T_M, 'M', 5)
-                )
-            ),
-            'POINTZ' => array(
-                'value'    => 'POINTZ',
-                'expected' => array(
-                    array(Lexer::T_POINT, 'POINT', 0),
-                    array(Lexer::T_Z, 'Z', 5)
-                )
-            ),
-            'POINT Z' => array(
-                'value'    => 'POINT Z',
-                'expected' => array(
-                    array(Lexer::T_POINT, 'POINT', 0),
-                    array(Lexer::T_Z, 'Z', 6)
-                )
-            ),
-            'POINT ZM' => array(
-                'value'    => 'POINT ZM',
-                'expected' => array(
-                    array(Lexer::T_POINT, 'POINT', 0),
-                    array(Lexer::T_ZM, 'ZM', 6)
-                )
-            ),
-            'POINTZM' => array(
-                'value'    => 'POINTZM',
-                'expected' => array(
-                    array(Lexer::T_POINT, 'POINT', 0),
-                    array(Lexer::T_ZM, 'ZM', 5)
-                )
-            ),
-            'LINESTRING' => array(
-                'value'    => 'LINESTRING',
-                'expected' => array(
-                    array(Lexer::T_LINESTRING, 'LINESTRING', 0)
-                )
-            ),
-            'LINESTRINGM' => array(
-                'value'    => 'LINESTRINGM',
-                'expected' => array(
-                    array(Lexer::T_LINESTRING, 'LINESTRING', 0),
-                    array(Lexer::T_M, 'M', 10)
-                )
-            ),
-            'POLYGON' => array(
-                'value'    => 'POLYGON',
-                'expected' => array(
-                    array(Lexer::T_POLYGON, 'POLYGON', 0)
-                )
-            ),
-            'POLYGONM' => array(
-                'value'    => 'POLYGONM',
-                'expected' => array(
-                    array(Lexer::T_POLYGON, 'POLYGON', 0),
-                    array(Lexer::T_M, 'M', 7)
-                )
-            ),
-            'MULTIPOINT' => array(
-                'value'    => 'MULTIPOINT',
-                'expected' => array(
-                    array(Lexer::T_MULTIPOINT, 'MULTIPOINT', 0)
-                )
-            ),
-            'MULTIPOINTM' => array(
-                'value'    => 'MULTIPOINTM',
-                'expected' => array(
-                    array(Lexer::T_MULTIPOINT, 'MULTIPOINT', 0),
-                    array(Lexer::T_M, 'M', 10)
-                )
-            ),
-            'MULTILINESTRING' => array(
-                'value'    => 'MULTILINESTRING',
-                'expected' => array(
-                    array(Lexer::T_MULTILINESTRING, 'MULTILINESTRING', 0)
-                )
-            ),
-            'MULTILINESTRINGM' => array(
-                'value'    => 'MULTILINESTRINGM',
-                'expected' => array(
-                    array(Lexer::T_MULTILINESTRING, 'MULTILINESTRING', 0),
-                    array(Lexer::T_M, 'M', 15)
-                )
-            ),
-            'MULTIPOLYGON' => array(
-                'value'    => 'MULTIPOLYGON',
-                'expected' => array(
-                    array(Lexer::T_MULTIPOLYGON, 'MULTIPOLYGON', 0)
-                )
-            ),
-            'MULTIPOLYGONM' => array(
-                'value'    => 'MULTIPOLYGONM',
-                'expected' => array(
-                    array(Lexer::T_MULTIPOLYGON, 'MULTIPOLYGON', 0),
-                    array(Lexer::T_M, 'M', 12)
-                )
-            ),
-            'GEOMETRYCOLLECTION' => array(
-                'value'    => 'GEOMETRYCOLLECTION',
-                'expected' => array(
-                    array(Lexer::T_GEOMETRYCOLLECTION, 'GEOMETRYCOLLECTION', 0)
-                )
-            ),
-            'GEOMETRYCOLLECTIONM' => array(
-                'value'    => 'GEOMETRYCOLLECTIONM',
-                'expected' => array(
-                    array(Lexer::T_GEOMETRYCOLLECTION, 'GEOMETRYCOLLECTION', 0),
-                    array(Lexer::T_M, 'M', 18)
-                )
-            ),
-            'COMPOUNDCURVE' => array(
-                'value'    => 'COMPOUNDCURVE',
-                'expected' => array(
-                    array(Lexer::T_COMPOUNDCURVE, 'COMPOUNDCURVE', 0)
-                )
-            ),
-            'COMPOUNDCURVEM' => array(
-                'value'    => 'COMPOUNDCURVEM',
-                'expected' => array(
-                    array(Lexer::T_COMPOUNDCURVE, 'COMPOUNDCURVE', 0),
-                    array(Lexer::T_M, 'M', 13)
-                )
-            ),
-            'CIRCULARSTRING' => array(
-                'value'    => 'CIRCULARSTRING',
-                'expected' => array(
-                    array(Lexer::T_CIRCULARSTRING, 'CIRCULARSTRING', 0)
-                )
-            ),
-            'CIRCULARSTRINGM' => array(
-                'value'    => 'CIRCULARSTRINGM',
-                'expected' => array(
-                    array(Lexer::T_CIRCULARSTRING, 'CIRCULARSTRING', 0),
-                    array(Lexer::T_M, 'M', 14)
-                )
-            ),
-            '35' => array(
-                'value'    => '35',
-                'expected' => array(
-                    array(Lexer::T_INTEGER, 35, 0)
-                )
-            ),
-            '-25' => array(
-                'value'    => '-25',
-                'expected' => array(
-                    array(Lexer::T_INTEGER, -25, 0)
-                )
-            ),
-            '-120.33' => array(
-                'value'    => '-120.33',
-                'expected' => array(
-                    array(Lexer::T_FLOAT, -120.33, 0)
-                )
-            ),
-            'SRID' => array(
-                'value'    => 'SRID',
-                'expected' => array(
-                    array(Lexer::T_SRID, 'SRID', 0)
-                )
-            ),
-            'SRID=4326;LINESTRING(0 0.0, 10.1 -10.025, 20.5 25.9, 53E-003 60)' => array(
-                'value'    => 'SRID=4326;LINESTRING(0 0.0, 10.1 -10.025, 20.5 25.9, 53E-003 60)',
-                'expected' => array(
-                    array(Lexer::T_SRID, 'SRID', 0),
-                    array(Lexer::T_EQUALS, '=', 4),
-                    array(Lexer::T_INTEGER, 4326, 5),
-                    array(Lexer::T_SEMICOLON, ';', 9),
-                    array(Lexer::T_LINESTRING, 'LINESTRING', 10),
-                    array(Lexer::T_OPEN_PARENTHESIS, '(', 20),
-                    array(Lexer::T_INTEGER, 0, 21),
-                    array(Lexer::T_FLOAT, 0, 23),
-                    array(Lexer::T_COMMA, ',', 26),
-                    array(Lexer::T_FLOAT, 10.1, 28),
-                    array(Lexer::T_FLOAT, -10.025, 33),
-                    array(Lexer::T_COMMA, ',', 40),
-                    array(Lexer::T_FLOAT, 20.5, 42),
-                    array(Lexer::T_FLOAT, 25.9, 47),
-                    array(Lexer::T_COMMA, ',', 51),
-                    array(Lexer::T_FLOAT, 0.053, 53),
-                    array(Lexer::T_INTEGER, 60, 61),
-                    array(Lexer::T_CLOSE_PARENTHESIS, ')', 63)
-                )
-            )
-        );
+        return [
+            'POINT' => [
+                'value' => 'POINT',
+                'expected' => [
+                    [Lexer::T_POINT, 'POINT', 0],
+                ],
+            ],
+            'POINTM' => [
+                'value' => 'POINTM',
+                'expected' => [
+                    [Lexer::T_POINT, 'POINT', 0],
+                    [Lexer::T_M, 'M', 5],
+                ],
+            ],
+            'POINT M' => [
+                'value' => 'POINTM',
+                'expected' => [
+                    [Lexer::T_POINT, 'POINT', 0],
+                    [Lexer::T_M, 'M', 5],
+                ],
+            ],
+            'POINTZ' => [
+                'value' => 'POINTZ',
+                'expected' => [
+                    [Lexer::T_POINT, 'POINT', 0],
+                    [Lexer::T_Z, 'Z', 5],
+                ],
+            ],
+            'POINT Z' => [
+                'value' => 'POINT Z',
+                'expected' => [
+                    [Lexer::T_POINT, 'POINT', 0],
+                    [Lexer::T_Z, 'Z', 6],
+                ],
+            ],
+            'POINT ZM' => [
+                'value' => 'POINT ZM',
+                'expected' => [
+                    [Lexer::T_POINT, 'POINT', 0],
+                    [Lexer::T_ZM, 'ZM', 6],
+                ],
+            ],
+            'POINTZM' => [
+                'value' => 'POINTZM',
+                'expected' => [
+                    [Lexer::T_POINT, 'POINT', 0],
+                    [Lexer::T_ZM, 'ZM', 5],
+                ],
+            ],
+            'LINESTRING' => [
+                'value' => 'LINESTRING',
+                'expected' => [
+                    [Lexer::T_LINESTRING, 'LINESTRING', 0],
+                ],
+            ],
+            'LINESTRINGM' => [
+                'value' => 'LINESTRINGM',
+                'expected' => [
+                    [Lexer::T_LINESTRING, 'LINESTRING', 0],
+                    [Lexer::T_M, 'M', 10],
+                ],
+            ],
+            'POLYGON' => [
+                'value' => 'POLYGON',
+                'expected' => [
+                    [Lexer::T_POLYGON, 'POLYGON', 0],
+                ],
+            ],
+            'POLYGONM' => [
+                'value' => 'POLYGONM',
+                'expected' => [
+                    [Lexer::T_POLYGON, 'POLYGON', 0],
+                    [Lexer::T_M, 'M', 7],
+                ],
+            ],
+            'MULTIPOINT' => [
+                'value' => 'MULTIPOINT',
+                'expected' => [
+                    [Lexer::T_MULTIPOINT, 'MULTIPOINT', 0],
+                ],
+            ],
+            'MULTIPOINTM' => [
+                'value' => 'MULTIPOINTM',
+                'expected' => [
+                    [Lexer::T_MULTIPOINT, 'MULTIPOINT', 0],
+                    [Lexer::T_M, 'M', 10],
+                ],
+            ],
+            'MULTILINESTRING' => [
+                'value' => 'MULTILINESTRING',
+                'expected' => [
+                    [Lexer::T_MULTILINESTRING, 'MULTILINESTRING', 0],
+                ],
+            ],
+            'MULTILINESTRINGM' => [
+                'value' => 'MULTILINESTRINGM',
+                'expected' => [
+                    [Lexer::T_MULTILINESTRING, 'MULTILINESTRING', 0],
+                    [Lexer::T_M, 'M', 15],
+                ],
+            ],
+            'MULTIPOLYGON' => [
+                'value' => 'MULTIPOLYGON',
+                'expected' => [
+                    [Lexer::T_MULTIPOLYGON, 'MULTIPOLYGON', 0],
+                ],
+            ],
+            'MULTIPOLYGONM' => [
+                'value' => 'MULTIPOLYGONM',
+                'expected' => [
+                    [Lexer::T_MULTIPOLYGON, 'MULTIPOLYGON', 0],
+                    [Lexer::T_M, 'M', 12],
+                ],
+            ],
+            'GEOMETRYCOLLECTION' => [
+                'value' => 'GEOMETRYCOLLECTION',
+                'expected' => [
+                    [Lexer::T_GEOMETRYCOLLECTION, 'GEOMETRYCOLLECTION', 0],
+                ],
+            ],
+            'GEOMETRYCOLLECTIONM' => [
+                'value' => 'GEOMETRYCOLLECTIONM',
+                'expected' => [
+                    [Lexer::T_GEOMETRYCOLLECTION, 'GEOMETRYCOLLECTION', 0],
+                    [Lexer::T_M, 'M', 18],
+                ],
+            ],
+            'COMPOUNDCURVE' => [
+                'value' => 'COMPOUNDCURVE',
+                'expected' => [
+                    [Lexer::T_COMPOUNDCURVE, 'COMPOUNDCURVE', 0],
+                ],
+            ],
+            'COMPOUNDCURVEM' => [
+                'value' => 'COMPOUNDCURVEM',
+                'expected' => [
+                    [Lexer::T_COMPOUNDCURVE, 'COMPOUNDCURVE', 0],
+                    [Lexer::T_M, 'M', 13],
+                ],
+            ],
+            'CIRCULARSTRING' => [
+                'value' => 'CIRCULARSTRING',
+                'expected' => [
+                    [Lexer::T_CIRCULARSTRING, 'CIRCULARSTRING', 0],
+                ],
+            ],
+            'CIRCULARSTRINGM' => [
+                'value' => 'CIRCULARSTRINGM',
+                'expected' => [
+                    [Lexer::T_CIRCULARSTRING, 'CIRCULARSTRING', 0],
+                    [Lexer::T_M, 'M', 14],
+                ],
+            ],
+            '35' => [
+                'value' => '35',
+                'expected' => [
+                    [Lexer::T_INTEGER, 35, 0],
+                ],
+            ],
+            '-25' => [
+                'value' => '-25',
+                'expected' => [
+                    [Lexer::T_INTEGER, -25, 0],
+                ],
+            ],
+            '-120.33' => [
+                'value' => '-120.33',
+                'expected' => [
+                    [Lexer::T_FLOAT, -120.33, 0],
+                ],
+            ],
+            'SRID' => [
+                'value' => 'SRID',
+                'expected' => [
+                    [Lexer::T_SRID, 'SRID', 0],
+                ],
+            ],
+            'SRID=4326;LINESTRING(0 0.0, 10.1 -10.025, 20.5 25.9, 53E-003 60)' => [
+                'value' => 'SRID=4326;LINESTRING(0 0.0, 10.1 -10.025, 20.5 25.9, 53E-003 60)',
+                'expected' => [
+                    [Lexer::T_SRID, 'SRID', 0],
+                    [Lexer::T_EQUALS, '=', 4],
+                    [Lexer::T_INTEGER, 4326, 5],
+                    [Lexer::T_SEMICOLON, ';', 9],
+                    [Lexer::T_LINESTRING, 'LINESTRING', 10],
+                    [Lexer::T_OPEN_PARENTHESIS, '(', 20],
+                    [Lexer::T_INTEGER, 0, 21],
+                    [Lexer::T_FLOAT, 0, 23],
+                    [Lexer::T_COMMA, ',', 26],
+                    [Lexer::T_FLOAT, 10.1, 28],
+                    [Lexer::T_FLOAT, -10.025, 33],
+                    [Lexer::T_COMMA, ',', 40],
+                    [Lexer::T_FLOAT, 20.5, 42],
+                    [Lexer::T_FLOAT, 25.9, 47],
+                    [Lexer::T_COMMA, ',', 51],
+                    [Lexer::T_FLOAT, 0.053, 53],
+                    [Lexer::T_INTEGER, 60, 61],
+                    [Lexer::T_CLOSE_PARENTHESIS, ')', 63],
+                ],
+            ],
+        ];
     }
 }
