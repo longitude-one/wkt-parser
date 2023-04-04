@@ -33,30 +33,14 @@ use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
  */
 class Parser
 {
-    /**
-     * @var string
-     */
-    private $input;
+    private ?string $input = null;
+    private ?string $dimension = null;
+    private Lexer $lexer;
 
     /**
-     * @var int
+     * @param string | null $input
      */
-    private $srid;
-
-    /**
-     * @var string
-     */
-    private $dimension;
-
-    /**
-     * @var Lexer
-     */
-    private $lexer;
-
-    /**
-     * @param string|null $input
-     */
-    public function __construct($input = null)
+    public function __construct(?string $input = null)
     {
         $this->lexer = new Lexer();
 
@@ -66,11 +50,11 @@ class Parser
     }
 
     /**
-     * @param string|null $input
+     * @param string | null $input
      *
      * @return array
      */
-    public function parse($input = null)
+    public function parse(?string $input = null): array
     {
         if (null !== $input) {
             $this->input = $input;
@@ -79,26 +63,26 @@ class Parser
         $this->lexer->setInput($this->input);
         $this->lexer->moveNext();
 
-        $this->srid      = null;
+        $srid            = null;
         $this->dimension = null;
 
         if ($this->lexer->isNextToken(Lexer::T_SRID)) {
-            $this->srid = $this->srid();
+            $srid = $this->srid();
         }
 
         $geometry              = $this->geometry();
-        $geometry['srid']      = $this->srid;
+        $geometry['srid']      = $srid;
         $geometry['dimension'] = '' === $this->dimension ? null : $this->dimension;
 
         return $geometry;
     }
 
     /**
-     * Match SRID in EWKT object
+     * Match SRID in EWKT object.
      *
      * @return int
      */
-    protected function srid()
+    protected function srid(): int
     {
         $this->match(Lexer::T_SRID);
         $this->match(Lexer::T_EQUALS);
@@ -112,15 +96,44 @@ class Parser
     }
 
     /**
-     * Match spatial data type
+     * Match token at current position in input.
      *
-     * @return string
+     * @param $token
      */
-    protected function type()
+    protected function match($token): void
     {
-        $this->match(Lexer::T_TYPE);
+        if ($this->lexer->lookahead !== null) {
+            $lookaheadType = $this->lexer->lookahead['type'];
+        }
 
-        return $this->lexer->value();
+        if (!isset($lookaheadType) || ($lookaheadType !== $token && ($token !== Lexer::T_TYPE || $lookaheadType <= Lexer::T_TYPE))) {
+            throw $this->syntaxError($this->lexer->getLiteral($token));
+        }
+
+        $this->lexer->moveNext();
+    }
+
+    /**
+     * Create exception with a descriptive error message.
+     *
+     * @param string $expected
+     *
+     * @return UnexpectedValueException
+     */
+    private function syntaxError(string $expected): UnexpectedValueException
+    {
+        $expected = sprintf('Expected %s, got', $expected);
+        $token    = $this->lexer->lookahead;
+        $found    = null === $this->lexer->lookahead ? 'end of string.' : sprintf('"%s"', $token['value']);
+        $message  = sprintf(
+            '[Syntax Error] line 0, col %d: Error: %s %s in value "%s"',
+            isset($token['position']) ? $token['position'] : '-1',
+            $expected,
+            $found,
+            $this->input,
+        );
+
+        return new UnexpectedValueException($message);
     }
 
     /**
@@ -128,11 +141,11 @@ class Parser
      *
      * @return array
      */
-    protected function geometry()
+    protected function geometry(): array
     {
         $type = $this->type();
 
-        if ($this->lexer->isNextTokenAny(array(Lexer::T_Z, Lexer::T_M, Lexer::T_ZM))) {
+        if ($this->lexer->isNextTokenAny([Lexer::T_Z, Lexer::T_M, Lexer::T_ZM])) {
             $this->match($this->lexer->lookahead['type']);
 
             $this->dimension = $this->lexer->value();
@@ -144,10 +157,50 @@ class Parser
 
         $this->match(Lexer::T_CLOSE_PARENTHESIS);
 
-        return array(
+        return [
             'type'  => $type,
-            'value' => $value
-        );
+            'value' => $value,
+        ];
+    }
+
+    /**
+     * Match spatial data type
+     *
+     * @return string
+     */
+    protected function type(): string
+    {
+        $this->match(Lexer::T_TYPE);
+
+        return $this->lexer->value();
+    }
+
+    /**
+     * Match LINESTRING value
+     *
+     * @return array[]
+     */
+    protected function lineString(): array
+    {
+        return $this->pointList();
+    }
+
+    /**
+     * Match a list of coordinates
+     *
+     * @return array[]
+     */
+    protected function pointList(): array
+    {
+        $points = [$this->point()];
+
+        while ($this->lexer->isNextToken(Lexer::T_COMMA)) {
+            $this->match(Lexer::T_COMMA);
+
+            $points[] = $this->point();
+        }
+
+        return $points;
     }
 
     /**
@@ -155,7 +208,7 @@ class Parser
      *
      * @return array
      */
-    protected function point()
+    protected function point(): array
     {
         if (null !== $this->dimension) {
             return $this->coordinates(2 + strlen($this->dimension));
@@ -163,7 +216,7 @@ class Parser
 
         $values = $this->coordinates(2);
 
-        for ($i = 3; $i <= 4 && $this->lexer->isNextTokenAny(array(Lexer::T_FLOAT, Lexer::T_INTEGER)); $i++) {
+        for ($i = 3; $i <= 4 && $this->lexer->isNextTokenAny([Lexer::T_FLOAT, Lexer::T_INTEGER]); ++$i) {
             $values[] = $this->coordinate();
         }
 
@@ -187,11 +240,11 @@ class Parser
      *
      * @return array
      */
-    protected function coordinates($count)
+    protected function coordinates(int $count): array
     {
-        $values = array();
+        $values = [];
 
-        for ($i = 1; $i <= $count; $i++) {
+        for ($i = 1; $i <= $count; ++$i) {
             $values[] = $this->coordinate();
         }
 
@@ -201,9 +254,9 @@ class Parser
     /**
      * Match a number and optional exponent
      *
-     * @return int|float
+     * @return float | int
      */
-    protected function coordinate()
+    protected function coordinate(): float | int
     {
         $this->match(($this->lexer->isNextToken(Lexer::T_FLOAT) ? Lexer::T_FLOAT : Lexer::T_INTEGER));
 
@@ -211,78 +264,15 @@ class Parser
     }
 
     /**
-     * Match LINESTRING value
-     *
-     * @return array[]
-     */
-    protected function lineString()
-    {
-        return $this->pointList();
-    }
-
-    /**
-     * Match POLYGON value
-     *
-     * @return array[]
-     */
-    protected function polygon()
-    {
-        return $this->pointLists();
-    }
-
-    /**
-     * Match a list of coordinates
-     *
-     * @return array[]
-     */
-    protected function pointList()
-    {
-        $points = array($this->point());
-
-        while ($this->lexer->isNextToken(Lexer::T_COMMA)) {
-            $this->match(Lexer::T_COMMA);
-
-            $points[] = $this->point();
-        }
-
-        return $points;
-    }
-
-    /**
-     * Match nested lists of coordinates
-     *
-     * @return array[]
-     */
-    protected function pointLists()
-    {
-        $this->match(Lexer::T_OPEN_PARENTHESIS);
-
-        $pointLists = array($this->pointList());
-
-        $this->match(Lexer::T_CLOSE_PARENTHESIS);
-
-        while ($this->lexer->isNextToken(Lexer::T_COMMA)) {
-            $this->match(Lexer::T_COMMA);
-            $this->match(Lexer::T_OPEN_PARENTHESIS);
-
-            $pointLists[] = $this->pointList();
-
-            $this->match(Lexer::T_CLOSE_PARENTHESIS);
-        }
-
-        return $pointLists;
-    }
-
-    /**
      * Match MULTIPOLYGON value
      *
      * @return array[]
      */
-    protected function multiPolygon()
+    protected function multiPolygon(): array
     {
         $this->match(Lexer::T_OPEN_PARENTHESIS);
 
-        $polygons = array($this->polygon());
+        $polygons = [$this->polygon()];
 
         $this->match(Lexer::T_CLOSE_PARENTHESIS);
 
@@ -299,11 +289,46 @@ class Parser
     }
 
     /**
+     * Match POLYGON value
+     *
+     * @return array[]
+     */
+    protected function polygon(): array
+    {
+        return $this->pointLists();
+    }
+
+    /**
+     * Match nested lists of coordinates
+     *
+     * @return array[]
+     */
+    protected function pointLists(): array
+    {
+        $this->match(Lexer::T_OPEN_PARENTHESIS);
+
+        $pointLists = [$this->pointList()];
+
+        $this->match(Lexer::T_CLOSE_PARENTHESIS);
+
+        while ($this->lexer->isNextToken(Lexer::T_COMMA)) {
+            $this->match(Lexer::T_COMMA);
+            $this->match(Lexer::T_OPEN_PARENTHESIS);
+
+            $pointLists[] = $this->pointList();
+
+            $this->match(Lexer::T_CLOSE_PARENTHESIS);
+        }
+
+        return $pointLists;
+    }
+
+    /**
      * Match MULTIPOINT value
      *
      * @return array[]
      */
-    protected function multiPoint()
+    protected function multiPoint(): array
     {
         return $this->pointList();
     }
@@ -313,7 +338,7 @@ class Parser
      *
      * @return array[]
      */
-    protected function multiLineString()
+    protected function multiLineString(): array
     {
         return $this->pointLists();
     }
@@ -323,9 +348,9 @@ class Parser
      *
      * @return array[]
      */
-    protected function geometryCollection()
+    protected function geometryCollection(): array
     {
-        $collection = array($this->geometry());
+        $collection = [$this->geometry()];
 
         while ($this->lexer->isNextToken(Lexer::T_COMMA)) {
             $this->match(Lexer::T_COMMA);
@@ -334,46 +359,5 @@ class Parser
         }
 
         return $collection;
-    }
-
-    /**
-     * Match token at current position in input
-     *
-     * @param $token
-     */
-    protected function match($token)
-    {
-        if ($this->lexer->lookahead !== null) {
-            $lookaheadType = $this->lexer->lookahead['type'];
-        }
-
-        if (!isset($lookaheadType) || ($lookaheadType !== $token && ($token !== Lexer::T_TYPE || $lookaheadType <= Lexer::T_TYPE))) {
-            throw $this->syntaxError($this->lexer->getLiteral($token));
-        }
-
-        $this->lexer->moveNext();
-    }
-
-    /**
-     * Create exception with descriptive error message
-     *
-     * @param string $expected
-     *
-     * @return UnexpectedValueException
-     */
-    private function syntaxError($expected)
-    {
-        $expected = sprintf('Expected %s, got', $expected);
-        $token    = $this->lexer->lookahead;
-        $found    = null === $this->lexer->lookahead ? 'end of string.' : sprintf('"%s"', $token['value']);
-        $message  = sprintf(
-            '[Syntax Error] line 0, col %d: Error: %s %s in value "%s"',
-            isset($token['position']) ? $token['position'] : '-1',
-            $expected,
-            $found,
-            $this->input
-        );
-
-        return new UnexpectedValueException($message);
     }
 }

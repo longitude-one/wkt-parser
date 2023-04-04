@@ -33,41 +33,41 @@ use Doctrine\Common\Lexer\AbstractLexer;
  */
 class Lexer extends AbstractLexer
 {
-    const T_NONE               = 1;
-    const T_INTEGER            = 2;
-    const T_STRING             = 3;
-    const T_FLOAT              = 5;
-    const T_CLOSE_PARENTHESIS  = 6;
-    const T_OPEN_PARENTHESIS   = 7;
-    const T_COMMA              = 8;
-    const T_DOT                = 10;
-    const T_EQUALS             = 11;
-    const T_MINUS              = 14;
-    const T_SEMICOLON          = 50;
-    const T_SRID               = 500;
-    const T_ZM                 = 501;
-    const T_Z                  = 502;
-    const T_M                  = 503;
+    public const T_NONE              = 1;
+    public const T_INTEGER           = 2;
+    public const T_STRING            = 3;
+    public const T_FLOAT             = 5;
+    public const T_CLOSE_PARENTHESIS = 6;
+    public const T_OPEN_PARENTHESIS  = 7;
+    public const T_COMMA             = 8;
+    public const T_DOT               = 10;
+    public const T_EQUALS            = 11;
+    public const T_MINUS             = 14;
+    public const T_SEMICOLON         = 50;
+    public const T_SRID              = 500;
+    public const T_ZM                = 501;
+    public const T_Z                 = 502;
+    public const T_M                 = 503;
 
     // Geometry types > 600
-    const T_TYPE                = 600;
-    const T_POINT               = 601;
-    const T_LINESTRING          = 602;
-    const T_POLYGON             = 603;
-    const T_MULTIPOINT          = 604;
-    const T_MULTILINESTRING     = 605;
-    const T_MULTIPOLYGON        = 606;
-    const T_GEOMETRYCOLLECTION  = 607;
-    const T_CIRCULARSTRING      = 608;
-    const T_COMPOUNDCURVE       = 609;
-    const T_CURVEPOLYGON        = 610;
-    const T_MULTICURVE          = 611;
-    const T_MULTISURFACE        = 612;
-    const T_CURVE               = 613;
-    const T_SURFACE             = 614;
-    const T_POLYHEDRALSURFACE   = 615;
-    const T_TIN                 = 616;
-    const T_TRIANGLE            = 617;
+    public const T_TYPE               = 600;
+    public const T_POINT              = 601;
+    public const T_LINESTRING         = 602;
+    public const T_POLYGON            = 603;
+    public const T_MULTIPOINT         = 604;
+    public const T_MULTILINESTRING    = 605;
+    public const T_MULTIPOLYGON       = 606;
+    public const T_GEOMETRYCOLLECTION = 607;
+    public const T_CIRCULARSTRING     = 608;
+    public const T_COMPOUNDCURVE      = 609;
+    public const T_CURVEPOLYGON       = 610;
+    public const T_MULTICURVE         = 611;
+    public const T_MULTISURFACE       = 612;
+    public const T_CURVE              = 613;
+    public const T_SURFACE            = 614;
+    public const T_POLYHEDRALSURFACE  = 615;
+    public const T_TIN                = 616;
+    public const T_TRIANGLE           = 617;
 
     /**
      * @param string $input a query string
@@ -82,7 +82,7 @@ class Lexer extends AbstractLexer
     /**
      * @return mixed
      */
-    public function value()
+    public function value(): mixed
     {
         return $this->token['value'];
     }
@@ -92,7 +92,7 @@ class Lexer extends AbstractLexer
      *
      * @return int
      */
-    protected function getType(&$value)
+    protected function getType(&$value): int
     {
         if (is_numeric($value)) {
             $value += 0;
@@ -114,39 +114,33 @@ class Lexer extends AbstractLexer
             return self::T_STRING;
         }
 
-        switch ($value) {
-            case ',':
-                return self::T_COMMA;
-            case '(':
-                return self::T_OPEN_PARENTHESIS;
-            case ')':
-                return self::T_CLOSE_PARENTHESIS;
-            case '=':
-                return self::T_EQUALS;
-            case ';':
-                return self::T_SEMICOLON;
-            default:
-                return self::T_NONE;
-        }
+        return match ($value) {
+            ','     => self::T_COMMA,
+            '('     => self::T_OPEN_PARENTHESIS,
+            ')'     => self::T_CLOSE_PARENTHESIS,
+            '='     => self::T_EQUALS,
+            ';'     => self::T_SEMICOLON,
+            default => self::T_NONE,
+        };
     }
 
     /**
      * @return string[]
      */
-    protected function getCatchablePatterns()
+    protected function getCatchablePatterns(): array
     {
-        return array(
+        return [
             '',
             'zm|[a-z]+[a-ln-y]',
-            '[+-]?[0-9]+(?:[\.][0-9]+)?(?:e[+-]?[0-9]+)?'
-        );
+            '[+-]?[0-9]+(?:[\.][0-9]+)?(?:e[+-]?[0-9]+)?',
+        ];
     }
 
     /**
      * @return string[]
      */
-    protected function getNonCatchablePatterns()
+    protected function getNonCatchablePatterns(): array
     {
-        return array('\s+');
+        return ['\s+'];
     }
 }
