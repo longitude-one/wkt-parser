@@ -63,15 +63,15 @@ class Parser
         $this->lexer->setInput($this->input);
         $this->lexer->moveNext();
 
-        $srid            = null;
+        $srid = null;
         $this->dimension = null;
 
         if ($this->lexer->isNextToken(Lexer::T_SRID)) {
             $srid = $this->srid();
         }
 
-        $geometry              = $this->geometry();
-        $geometry['srid']      = $srid;
+        $geometry = $this->geometry();
+        $geometry['srid'] = $srid;
         $geometry['dimension'] = '' === $this->dimension ? null : $this->dimension;
 
         return $geometry;
@@ -123,9 +123,9 @@ class Parser
     private function syntaxError(string $expected): UnexpectedValueException
     {
         $expected = sprintf('Expected %s, got', $expected);
-        $token    = $this->lexer->lookahead;
-        $found    = null === $this->lexer->lookahead ? 'end of string.' : sprintf('"%s"', $token['value']);
-        $message  = sprintf(
+        $token = $this->lexer->lookahead;
+        $found = null === $this->lexer->lookahead ? 'end of string.' : sprintf('"%s"', $token['value']);
+        $message = sprintf(
             '[Syntax Error] line 0, col %d: Error: %s %s in value "%s"',
             isset($token['position']) ? $token['position'] : '-1',
             $expected,
@@ -158,7 +158,7 @@ class Parser
         $this->match(Lexer::T_CLOSE_PARENTHESIS);
 
         return [
-            'type'  => $type,
+            'type' => $type,
             'value' => $value,
         ];
     }
