@@ -21,11 +21,11 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\WKT\Tests;
+namespace LongitudeOne\Geo\WKT\Tests;
 
-use CrEOF\Geo\WKT\Exception\ExceptionInterface;
-use CrEOF\Geo\WKT\Exception\UnexpectedValueException;
-use CrEOF\Geo\WKT\Parser;
+use LongitudeOne\Geo\WKT\Exception\ExceptionInterface;
+use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
+use LongitudeOne\Geo\WKT\Parser;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -83,11 +83,11 @@ class ParserTest extends TestCase
         return array(
             'testParsingGarbage' => array(
                 'value'    => '@#_$%',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 0: Error: Expected CrEOF\Geo\WKT\Lexer::T_TYPE, got "@" in value "@#_$%"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 0: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_TYPE, got "@" in value "@#_$%"')
             ),
             'testParsingBadType' => array(
                 'value'    => 'PNT(10 10)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 0: Error: Expected CrEOF\Geo\WKT\Lexer::T_TYPE, got "PNT" in value "PNT(10 10)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 0: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_TYPE, got "PNT" in value "PNT(10 10)"')
             ),
             'testParsingPointValue' => array(
                 'value'    => 'POINT(34.23 -87)',
@@ -172,39 +172,39 @@ class ParserTest extends TestCase
             ),
             'testParsingPointValueWithBadSrid' => array(
                 'value'    => 'SRID=432.6;POINT(34.23 -87)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 5: Error: Expected CrEOF\Geo\WKT\Lexer::T_INTEGER, got "432.6" in value "SRID=432.6;POINT(34.23 -87)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 5: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got "432.6" in value "SRID=432.6;POINT(34.23 -87)"')
             ),
             'testParsingPointValueMissingCoordinate' => array(
                 'value'    => 'POINT(34.23)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 11: Error: Expected CrEOF\Geo\WKT\Lexer::T_INTEGER, got ")" in value "POINT(34.23)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 11: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got ")" in value "POINT(34.23)"')
             ),
             'testParsingPointMValueMissingCoordinate' => array(
                 'value'    => 'POINTM(34.23 10)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 15: Error: Expected CrEOF\Geo\WKT\Lexer::T_INTEGER, got ")" in value "POINTM(34.23 10)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 15: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got ")" in value "POINTM(34.23 10)"')
             ),
             'testParsingPointMValueExtraCoordinate' => array(
                 'value'    => 'POINTM(34.23 10 30 40)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 19: Error: Expected CrEOF\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "40" in value "POINTM(34.23 10 30 40)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 19: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "40" in value "POINTM(34.23 10 30 40)"')
             ),
             'testParsingPointZMValueMissingCoordinate' => array(
                 'value'    => 'POINTZM(34.23 10 45)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 19: Error: Expected CrEOF\Geo\WKT\Lexer::T_INTEGER, got ")" in value "POINTZM(34.23 10 45)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 19: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got ")" in value "POINTZM(34.23 10 45)"')
             ),
             'testParsingPointZMValueExtraCoordinate' => array(
                 'value'    => 'POINTZM(34.23 10 45 4.5 99)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 24: Error: Expected CrEOF\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "99" in value "POINTZM(34.23 10 45 4.5 99)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 24: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "99" in value "POINTZM(34.23 10 45 4.5 99)"')
             ),
             'testParsingPointValueShortString' => array(
                 'value'    => 'POINT(34.23',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col -1: Error: Expected CrEOF\Geo\WKT\Lexer::T_INTEGER, got end of string. in value "POINT(34.23"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col -1: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got end of string. in value "POINT(34.23"')
             ),
             'testParsingPointValueWrongScientificWithSrid' => array(
                 'value'    => 'SRID=4326;POINT(4.23test-005 -8e-003)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 20: Error: Expected CrEOF\Geo\WKT\Lexer::T_INTEGER, got "test" in value "SRID=4326;POINT(4.23test-005 -8e-003)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 20: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got "test" in value "SRID=4326;POINT(4.23test-005 -8e-003)"')
             ),
             'testParsingPointValueWithComma' => array(
                 'value'    => 'POINT(10, 10)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 8: Error: Expected CrEOF\Geo\WKT\Lexer::T_INTEGER, got "," in value "POINT(10, 10)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 8: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got "," in value "POINT(10, 10)"')
             ),
             'testParsingLineStringValue' => array(
                 'value'    => 'LINESTRING(34.23 -87, 45.3 -92)',
@@ -268,11 +268,11 @@ class ParserTest extends TestCase
             ),
             'testParsingLineStringValueMissingCoordinate' => array(
                 'value'    => 'LINESTRING(34.23 -87, 45.3)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 26: Error: Expected CrEOF\Geo\WKT\Lexer::T_INTEGER, got ")" in value "LINESTRING(34.23 -87, 45.3)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 26: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got ")" in value "LINESTRING(34.23 -87, 45.3)"')
             ),
             'testParsingLineStringValueMismatchedDimensions' => array(
                 'value'    => 'LINESTRING(34.23 -87, 45.3 56 23.4)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 30: Error: Expected CrEOF\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "23.4" in value "LINESTRING(34.23 -87, 45.3 56 23.4)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 30: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "23.4" in value "LINESTRING(34.23 -87, 45.3 56 23.4)"')
             ),
             'testParsingPolygonValue' => array(
                 'value'    => 'POLYGON((0 0,10 0,10 10,0 10,0 0))',
@@ -409,15 +409,15 @@ class ParserTest extends TestCase
             ),
             'testParsingPolygonValueMissingParenthesis' => array(
                 'value'    => 'POLYGON(0 0,10 0,10 10,0 10,0 0)',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 8: Error: Expected CrEOF\Geo\WKT\Lexer::T_OPEN_PARENTHESIS, got "0" in value "POLYGON(0 0,10 0,10 10,0 10,0 0)"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 8: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_OPEN_PARENTHESIS, got "0" in value "POLYGON(0 0,10 0,10 10,0 10,0 0)"')
             ),
             'testParsingPolygonValueMismatchedDimension' => array(
                 'value'    => 'POLYGON((0 0,10 0,10 10 10,0 10,0 0))',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 24: Error: Expected CrEOF\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "10" in value "POLYGON((0 0,10 0,10 10 10,0 10,0 0))"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 24: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "10" in value "POLYGON((0 0,10 0,10 10 10,0 10,0 0))"')
             ),
             'testParsingPolygonValueMultiRingMissingComma' => array(
                 'value'    => 'POLYGON((0 0,10 0,10 10,0 10,0 0)(5 5,7 5,7 7,5 7,5 5))',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 33: Error: Expected CrEOF\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "(" in value "POLYGON((0 0,10 0,10 10,0 10,0 0)(5 5,7 5,7 7,5 7,5 5))"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 33: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "(" in value "POLYGON((0 0,10 0,10 10,0 10,0 0)(5 5,7 5,7 7,5 7,5 5))"')
             ),
             'testParsingMultiPointValue' => array(
                 'value'    => 'MULTIPOINT(0 0,10 0,10 10,0 10)',
@@ -463,7 +463,7 @@ class ParserTest extends TestCase
             ),
             'testParsingMultiPointValueWithExtraParenthesis' => array(
                 'value'    => 'MULTIPOINT((0 0,10 0,10 10,0 10))',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 11: Error: Expected CrEOF\Geo\WKT\Lexer::T_INTEGER, got "(" in value "MULTIPOINT((0 0,10 0,10 10,0 10))"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 11: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got "(" in value "MULTIPOINT((0 0,10 0,10 10,0 10))"')
             ),
             'testParsingMultiLineStringValue' => array(
                 'value'    => 'MULTILINESTRING((0 0,10 0,10 10,0 10),(5 5,7 5,7 7,5 7))',
@@ -533,7 +533,7 @@ class ParserTest extends TestCase
             ),
             'testParsingMultiLineStringValueMissingComma' => array(
                 'value'    => 'MULTILINESTRING((0 0,10 0,10 10,0 10)(5 5,7 5,7 7,5 7))',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 37: Error: Expected CrEOF\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "(" in value "MULTILINESTRING((0 0,10 0,10 10,0 10)(5 5,7 5,7 7,5 7))"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 37: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "(" in value "MULTILINESTRING((0 0,10 0,10 10,0 10)(5 5,7 5,7 7,5 7))"')
             ),
             'testParsingMultiPolygonValue' => array(
                 'value'    => 'MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7,5 5)),((1 1, 3 1, 3 3, 1 3, 1 1)))',
@@ -607,7 +607,7 @@ class ParserTest extends TestCase
             ),
             'testParsingMultiPolygonValueMissingParenthesis' => array(
                 'value'    => 'MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7,5 5)),(1 1, 3 1, 3 3, 1 3, 1 1))',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 64: Error: Expected CrEOF\Geo\WKT\Lexer::T_OPEN_PARENTHESIS, got "1" in value "MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7,5 5)),(1 1, 3 1, 3 3, 1 3, 1 1))"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 64: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_OPEN_PARENTHESIS, got "1" in value "MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7,5 5)),(1 1, 3 1, 3 3, 1 3, 1 1))"')
             ),
             'testParsingGeometryCollectionValue' => array(
                 'value'    => 'GEOMETRYCOLLECTION(POINT(10 10), POINT(30 30), LINESTRING(15 15, 20 20))',
@@ -686,11 +686,11 @@ class ParserTest extends TestCase
             ),
             'testParsingGeometryCollectionValueWithBadType' => array(
                 'value'    => 'GEOMETRYCOLLECTION(PNT(10 10), POINT(30 30), LINESTRING(15 15, 20 20))',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 19: Error: Expected CrEOF\Geo\WKT\Lexer::T_TYPE, got "PNT" in value "GEOMETRYCOLLECTION(PNT(10 10), POINT(30 30), LINESTRING(15 15, 20 20))"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 19: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_TYPE, got "PNT" in value "GEOMETRYCOLLECTION(PNT(10 10), POINT(30 30), LINESTRING(15 15, 20 20))"')
             ),
             'testParsingGeometryCollectionValueWithMismatchedDimenstion' => array(
                 'value'    => 'GEOMETRYCOLLECTION(POINT(10 10), POINT(30 30 10), LINESTRING(15 15, 20 20))',
-                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 45: Error: Expected CrEOF\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "10" in value "GEOMETRYCOLLECTION(POINT(10 10), POINT(30 30 10), LINESTRING(15 15, 20 20))"')
+                'expected' => new UnexpectedValueException('[Syntax Error] line 0, col 45: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "10" in value "GEOMETRYCOLLECTION(POINT(10 10), POINT(30 30 10), LINESTRING(15 15, 20 20))"')
             )
         );
     }

@@ -14,7 +14,7 @@
         "creof/wkt-parser": "*"
     },
     "require": {
-        "php":            ">=5.3.3",
+        "php":            ">=8.1",
         "ext-SPL":        "*",
         "doctrine/lexer": "~1.0 || ^2.1"
     },
@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-0": {
-            "CrEOF\\Geo\\WKT": "lib/"
+            "LongitudeOne\\Geo\\WKT": "lib/"
         }
     },
     "autoload-dev": {
         "psr-0": {
-            "CrEOF\\Geo\\WKT\\Tests": "tests/"
+            "LongitudeOne\\Geo\\WKT\\Tests": "tests/"
         }
     }
 }

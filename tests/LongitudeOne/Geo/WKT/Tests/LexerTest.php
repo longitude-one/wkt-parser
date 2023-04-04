@@ -21,9 +21,9 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\WKT\Tests;
+namespace LongitudeOne\Geo\WKT\Tests;
 
-use CrEOF\Geo\WKT\Lexer;
+use LongitudeOne\Geo\WKT\Lexer;
 use PHPUnit\Framework\TestCase;
 
 /**

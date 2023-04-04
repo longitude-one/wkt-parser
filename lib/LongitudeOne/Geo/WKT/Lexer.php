@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\WKT;
+namespace LongitudeOne\Geo\WKT;
 
 use Doctrine\Common\Lexer\AbstractLexer;
 

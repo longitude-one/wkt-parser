@@ -21,15 +21,15 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\WKT\Exception;
+namespace LongitudeOne\Geo\WKT\Exception;
 
 /**
- * RangeException
+ * UnexpectedValueException
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class RangeException extends \RangeException implements ExceptionInterface
+class UnexpectedValueException extends \UnexpectedValueException implements ExceptionInterface
 {
 
 }
