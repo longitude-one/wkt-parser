@@ -49,9 +49,9 @@ class LexerTest extends TestCase
 
             $actual = $lexer->lookahead;
 
-            $this->assertEquals($token[0], $actual['type']);
-            $this->assertEquals($token[1], $actual['value']);
-            $this->assertEquals($token[2], $actual['position']);
+            $this->assertEquals($token[0], $actual->type);
+            $this->assertEquals($token[1], $actual->value);
+            $this->assertEquals($token[2], $actual->position);
         }
     }
 
@@ -67,9 +67,9 @@ class LexerTest extends TestCase
 
                 $actual = $lexer->lookahead;
 
-                $this->assertEquals($token[0], $actual['type']);
-                $this->assertEquals($token[1], $actual['value']);
-                $this->assertEquals($token[2], $actual['position']);
+                $this->assertEquals($token[0], $actual->type);
+                $this->assertEquals($token[1], $actual->value);
+                $this->assertEquals($token[2], $actual->position);
             }
         }
     }

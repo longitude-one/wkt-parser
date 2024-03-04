@@ -84,7 +84,7 @@ class Lexer extends AbstractLexer
      */
     public function value(): mixed
     {
-        return $this->token['value'];
+        return $this->token->value;
     }
 
     /**
@@ -95,9 +95,10 @@ class Lexer extends AbstractLexer
     protected function getType(&$value): int
     {
         if (is_numeric($value)) {
-            $value += 0;
+            $numeric = $value + 0;
 
-            if (is_int($value)) {
+            if (is_int($numeric)) {
+                $value = $numeric;
                 return self::T_INTEGER;
             }
 

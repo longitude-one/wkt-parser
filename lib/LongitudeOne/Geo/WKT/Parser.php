@@ -103,7 +103,7 @@ class Parser
     protected function match($token): void
     {
         if ($this->lexer->lookahead !== null) {
-            $lookaheadType = $this->lexer->lookahead['type'];
+            $lookaheadType = $this->lexer->lookahead->type;
         }
 
         if (!isset($lookaheadType) || ($lookaheadType !== $token && ($token !== Lexer::T_TYPE || $lookaheadType <= Lexer::T_TYPE))) {
@@ -124,10 +124,10 @@ class Parser
     {
         $expected = sprintf('Expected %s, got', $expected);
         $token = $this->lexer->lookahead;
-        $found = null === $this->lexer->lookahead ? 'end of string.' : sprintf('"%s"', $token['value']);
+        $found = null === $this->lexer->lookahead ? 'end of string.' : sprintf('"%s"', $token->value);
         $message = sprintf(
             '[Syntax Error] line 0, col %d: Error: %s %s in value "%s"',
-            isset($token['position']) ? $token['position'] : '-1',
+            isset($token->position) ? $token->position : '-1',
             $expected,
             $found,
             $this->input,
@@ -146,7 +146,7 @@ class Parser
         $type = $this->type();
 
         if ($this->lexer->isNextTokenAny([Lexer::T_Z, Lexer::T_M, Lexer::T_ZM])) {
-            $this->match($this->lexer->lookahead['type']);
+            $this->match($this->lexer->lookahead->type);
 
             $this->dimension = $this->lexer->value();
         }
