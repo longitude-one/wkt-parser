@@ -1,5 +1,5 @@
 {
-    "name": "captain-igloo/wkt-parser",
+    "name": "longitude-one/wkt-parser",
     "type": "library",
     "description": "Parser for well-known text (WKT) object strings",
     "keywords": ["parser", "lexer", "string", "text", "geometry", "geography", "spatial", "wkt", "ewkt"],
