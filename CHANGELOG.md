@@ -4,12 +4,26 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-
+- Docker added (to help contributors)
+- Test for PHP version 8.3
 ### Changed
-
+- Doctrine Lexer 2.1 support fixed
 ### Removed
+- PHP 8.0 support
+- PHP 7.* support
+- PHP 5.4 support
+- PHP 4.5 support
 
-## [2.2.0] - 2016-05-03
+## LongitudeOne [1.0.0] - 2023-06-04
+### Added
+- Allows doctrine/lexer@^2.1 by @axi in #1
+- Add GitHub Actions by @axi in #2
+- Change name space from CrEOF LongitudeOne by @ellisgl in #3
+- 8.1 support by @ellisgl in #4
+### Fork
+- Forked from CreOf [2.2.0]
+
+## CreOf [2.2.0] - 2016-05-03
 ### Added
 - Tests namespace to PSR-0 autoload in composer.json.
 - Support for 3DZ, 3DM, 4DZM objects added. Dimension(s) now in 'dimension' key of returned array.
@@ -18,7 +32,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Token pattern regex changed to capture numbers in scientific notation as a single value.
 - Let PHP handle scientific number conversion to float instead of manually calculating.
 - Only instantiate Lexer object in Parser constructor if it doesn't exist.
-- Move function return value tests from switch statement in Lexer. Switch statement now doing only string comparison.
+- Move function return value tests from switch statements in Lexer. Switch statement now doing only string comparison.
 - Remove static visibility from Lexer instance in Parser.
 - PHPUnit now bootstraps Composer autoload.
 - Update PHPUnit config XML to be compliant with XSD.
@@ -28,7 +42,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Removed E token used with scientific notation from Lexer.
 - Removed now unused TestInit.
 
-## [2.1.0] - 2016-04-09
+## CreOf [2.1.0] - 2016-04-09
 ### Added
 - Add tokens for 3DM, 3DZ, and 4D coordinates to Lexer.
 - Method Lexer::value() to get current token value.
@@ -46,10 +60,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Consolidated all Parser test data into ParserTest.
 - Update usage documentation in README.md.
 
-## [2.0.0] - 2015-11-18
+## CreOf [2.0.0] - 2015-11-18
 ### Added
 - Change base namespace to CrEOF\Geo\WKT to avoid class collision with other CrEOF packages.
 
-## [1.0.0] - 2015-11-11
+## CreOf [1.0.0] - 2015-11-11
 ### Added
 - Initial release.
