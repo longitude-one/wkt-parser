@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Test for PHP version 8.3
 ### Changed
 - Doctrine Lexer 2.1 support fixed
+- GitHub checkout action upgraded 
 ### Removed
 - PHP 8.0 support
 - PHP 7.* support
