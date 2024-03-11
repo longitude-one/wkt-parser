@@ -19,7 +19,7 @@ jobs:
               with:
                   php-version: ${{ matrix.php }}
                   coverage: none
-                  tools: composer:v2, phpunit:10.0
+                  tools: composer:v2, phpunit:10.5
 
             - name: Install dependencies
               run: composer install --prefer-dist
