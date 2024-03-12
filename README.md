@@ -1,3 +1,5 @@
+[![CI](https://github.com/longitude-one/wkt-parser/actions/workflows/ci.yml/badge.svg)](https://github.com/longitude-one/wkt-parser/actions/workflows/ci.yml)
+[![Downloads](https://img.shields.io/packagist/dm/longitude-one/wkt-parser.svg)](https://packagist.org/packages/longitude-one/doctrine-spatial)
 # longitude-one/wkt-parser
 
 Lexer and parser library for 2D, 3D, and 4D WKT/EWKT spatial object strings.
