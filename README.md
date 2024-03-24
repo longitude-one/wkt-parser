@@ -1,8 +1,28 @@
-[![CI](https://github.com/longitude-one/wkt-parser/actions/workflows/ci.yml/badge.svg)](https://github.com/longitude-one/wkt-parser/actions/workflows/ci.yml)
-[![Downloads](https://img.shields.io/packagist/dm/longitude-one/wkt-parser.svg)](https://packagist.org/packages/longitude-one/doctrine-spatial)
-# longitude-one/wkt-parser
+# Well-known text parser: longitude-one/wkt-parser
+
+![longitude-one/wkt-parser](https://img.shields.io/badge/longitude--one-wkt--parser-blue)
+![Stable release](https://img.shields.io/github/v/release/longitude-one/wkt-parser)
+[![Packagist License](https://img.shields.io/packagist/l/longitude-one/wkt-parser)](https://github.com/longitude-one/wkt-parser/blob/main/LICENSE)
 
 Lexer and parser library for 2D, 3D, and 4D WKT/EWKT spatial object strings.
+
+[![PHP CI](https://github.com/longitude-one/wkt-parser/actions/workflows/ci.yml/badge.svg)](https://github.com/longitude-one/wkt-parser/actions/workflows/ci.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9f5fc3374175f36bb142/maintainability)](https://codeclimate.com/github/longitude-one/wkt-parser/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/9f5fc3374175f36bb142/test_coverage)](https://codeclimate.com/github/longitude-one/wkt-parser/test_coverage)
+![Minimum PHP Version](https://img.shields.io/packagist/php-v/longitude-one/wkt-parser.svg?maxAge=3600)
+
+
+[![CI](https://github.com/longitude-one/wkt-parser/actions/workflows/ci.yml/badge.svg)](https://github.com/longitude-one/wkt-parser/actions/workflows/ci.yml)
+[![Downloads](https://img.shields.io/packagist/dm/longitude-one/wkt-parser.svg)](https://packagist.org/packages/longitude-one/wkt-parser)
+
+> [!NOTE]
+> This package is the continuation of the now abandoned [creof/wkt-parser](https://github.com/creof/wkt-parser) package.
+
+## Installation
+
+```bash
+composer require longitude-one/wkt-parser
+```
 
 ## Usage
 
