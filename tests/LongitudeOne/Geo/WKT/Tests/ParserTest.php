@@ -1,24 +1,13 @@
 <?php
+
 /**
- * Copyright (C) 2016 Derek J. Lambert
+ * This file is part of the LongitudeOne WKT-Parser project.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * PHP 8.1 | 8.2 | 8.3
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * Copyright LongitudeOne - Alexandre Tranchant - Derek J. Lambert.
+ * Copyright 2024.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
  */
 
 namespace LongitudeOne\Geo\WKT\Tests;
@@ -29,52 +18,10 @@ use LongitudeOne\Geo\WKT\Parser;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Basic parser tests
- *
- * @author  Derek J. Lambert <dlambert@dereklambert.com>
- * @license http://dlambert.mit-license.org MIT
+ * Basic parser tests.
  */
 class ParserTest extends TestCase
 {
-    /**
-     * @param string                   $value
-     * @param array|ExceptionInterface $expected
-     *
-     * @dataProvider parserTestData
-     */
-    public function testParser($value, $expected)
-    {
-        $parser = new Parser($value);
-
-        if ($expected instanceof ExceptionInterface) {
-            $this->expectException(get_class($expected));
-            $this->expectExceptionMessage($expected->getMessage());
-        }
-
-        $actual = $parser->parse();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function testReusedParser()
-    {
-        $parser = new Parser();
-
-        foreach (self::parserTestData() as $name => $testData) {
-            $value = $testData['value'];
-            $expected = $testData['expected'];
-
-            if ($expected instanceof ExceptionInterface) {
-                $this->expectException(get_class($expected));
-                $this->expectExceptionMessage($expected->getMessage());
-            }
-
-            $actual = $parser->parse($value);
-
-            $this->assertEquals($expected, $actual, 'Failed dataset "' . $name . '"');
-        }
-    }
-
     /**
      * @return array[]
      */
@@ -735,5 +682,44 @@ class ParserTest extends TestCase
                 ),
             ],
         ];
+    }
+
+    /**
+     * @param string                   $value
+     * @param array|ExceptionInterface $expected
+     *
+     * @dataProvider parserTestData
+     */
+    public function testParser($value, $expected)
+    {
+        $parser = new Parser($value);
+
+        if ($expected instanceof ExceptionInterface) {
+            $this->expectException(get_class($expected));
+            $this->expectExceptionMessage($expected->getMessage());
+        }
+
+        $actual = $parser->parse();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testReusedParser()
+    {
+        $parser = new Parser();
+
+        foreach (self::parserTestData() as $name => $testData) {
+            $value = $testData['value'];
+            $expected = $testData['expected'];
+
+            if ($expected instanceof ExceptionInterface) {
+                $this->expectException(get_class($expected));
+                $this->expectExceptionMessage($expected->getMessage());
+            }
+
+            $actual = $parser->parse($value);
+
+            $this->assertEquals($expected, $actual, 'Failed dataset "'.$name.'"');
+        }
     }
 }

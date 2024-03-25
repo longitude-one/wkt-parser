@@ -1,24 +1,13 @@
 <?php
+
 /**
- * Copyright (C) 2016 Derek J. Lambert
+ * This file is part of the LongitudeOne WKT-Parser project.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * PHP 8.1 | 8.2 | 8.3
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * Copyright LongitudeOne - Alexandre Tranchant - Derek J. Lambert.
+ * Copyright 2024.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
  */
 
 namespace LongitudeOne\Geo\WKT\Tests;
@@ -27,53 +16,10 @@ use LongitudeOne\Geo\WKT\Lexer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Lexer tests
- *
- * @author  Derek J. Lambert <dlambert@dereklambert.com>
- * @license http://dlambert.mit-license.org MIT
+ * Lexer tests.
  */
 class LexerTest extends TestCase
 {
-    /**
-     * @param       $value
-     * @param array $expected
-     *
-     * @dataProvider tokenData
-     */
-    public function testTokenRecognition($value, array $expected)
-    {
-        $lexer = new Lexer($value);
-
-        foreach ($expected as $token) {
-            $lexer->moveNext();
-
-            $actual = $lexer->lookahead;
-
-            $this->assertEquals($token[0], $actual['type']);
-            $this->assertEquals($token[1], $actual['value']);
-            $this->assertEquals($token[2], $actual['position']);
-        }
-    }
-
-    public function testTokenRecognitionReuseLexer()
-    {
-        $lexer = new Lexer();
-
-        foreach (self::tokenData() as $name => $testData) {
-            $lexer->setInput($testData['value']);
-
-            foreach ($testData['expected'] as $token) {
-                $lexer->moveNext();
-
-                $actual = $lexer->lookahead;
-
-                $this->assertEquals($token[0], $actual['type']);
-                $this->assertEquals($token[1], $actual['value']);
-                $this->assertEquals($token[2], $actual['position']);
-            }
-        }
-    }
-
     /**
      * @return array
      */
@@ -280,5 +226,42 @@ class LexerTest extends TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * @dataProvider tokenData
+     */
+    public function testTokenRecognition($value, array $expected)
+    {
+        $lexer = new Lexer($value);
+
+        foreach ($expected as $token) {
+            $lexer->moveNext();
+
+            $actual = $lexer->lookahead;
+
+            $this->assertEquals($token[0], $actual['type']);
+            $this->assertEquals($token[1], $actual['value']);
+            $this->assertEquals($token[2], $actual['position']);
+        }
+    }
+
+    public function testTokenRecognitionReuseLexer()
+    {
+        $lexer = new Lexer();
+
+        foreach (self::tokenData() as $name => $testData) {
+            $lexer->setInput($testData['value']);
+
+            foreach ($testData['expected'] as $token) {
+                $lexer->moveNext();
+
+                $actual = $lexer->lookahead;
+
+                $this->assertEquals($token[0], $actual['type']);
+                $this->assertEquals($token[1], $actual['value']);
+                $this->assertEquals($token[2], $actual['position']);
+            }
+        }
     }
 }
