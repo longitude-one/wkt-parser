@@ -25,6 +25,21 @@ class ParserTest extends SpecificTestCase
     /**
      * @return \Generator<string, ?int, array<int|float>[], ?string>
      */
+    public static function geometryCollectionProvider(): \Generator
+    {
+        yield 'testGeometryCollection' => ['GEOMETRYCOLLECTION(POINT(34.23 -87), LINESTRING(34.23 -87, 45.3 -92))', null, [['type' => 'POINT', 'value' => [34.23, -87]], ['type' => 'LINESTRING', 'value' => [[34.23, -87], [45.3, -92]]]], null];
+        yield 'testGeometryCollectionWithSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT(34.23 -87), LINESTRING(34.23 -87, 45.3 -92))', 4326, [['type' => 'POINT', 'value' => [34.23, -87]], ['type' => 'LINESTRING', 'value' => [[34.23, -87], [45.3, -92]]]], null];
+        yield 'testGeometryCollectionWithZ' => ['GEOMETRYCOLLECTION(POINT Z(34.23 -87 10), LINESTRING Z(34.23 -87 10, 45.3 -92 10))', null, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'Z'];
+        yield 'testGeometryCollectionWithZAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT Z(34.23 -87 10), LINESTRING Z(34.23 -87 10, 45.3 -92 10))', 4326, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'Z'];
+        yield 'testGeometryCollectionWithM' => ['GEOMETRYCOLLECTION(POINT M(34.23 -87 10), LINESTRING M(34.23 -87 10, 45.3 -92 10))', null, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'M'];
+        yield 'testGeometryCollectionWithMAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT M(34.23 -87 10), LINESTRING M(34.23 -87 10, 45.3 -92 10))', 4326, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'M'];
+        yield 'testGeometryCollectionWithZM' => ['GEOMETRYCOLLECTION(POINT ZM(34.23 -87 10 20), LINESTRING ZM(34.23 -87 10 20, 45.3 -92 10 20))', null, [['type' => 'POINT', 'value' => [34.23, -87, 10, 20]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10, 20], [45.3, -92, 10, 20]]]], 'ZM'];
+        yield 'testGeometryCollectionWithZMAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT ZM(34.23 -87 10 20), LINESTRING ZM(34.23 -87 10 20, 45.3 -92 10 20))', 4326, [['type' => 'POINT', 'value' => [34.23, -87, 10, 20]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10, 20], [45.3, -92, 10, 20]]]], 'ZM'];
+    }
+
+    /**
+     * @return \Generator<string, ?int, array<int|float>[], ?string>
+     */
     public static function lineStringProvider(): \Generator
     {
         yield 'testParsingLineStringValue' => ['LINESTRING(34.23 -87, 45.3 -92)', null, [[34.23, -87], [45.3, -92]], null];
@@ -80,21 +95,6 @@ class ParserTest extends SpecificTestCase
         yield 'testParsingMultiPolygonZValueWithSrid' => ['SRID=4326;MULTIPOLYGONZ(((0 0 0,10 0 0,10 10 0,0 10 0,0 0 0),(5 5 1,7 5 1,7 7 1,5 7 1,5 5 1)),((1 1 0, 3 1 0, 3 3 0, 1 3 0, 1 1 0)))', 4326, [[[[0, 0, 0], [10, 0, 0], [10, 10, 0], [0, 10, 0], [0, 0, 0]], [[5, 5, 1], [7, 5, 1], [7, 7, 1], [5, 7, 1], [5, 5, 1]]], [[[1, 1, 0], [3, 1, 0], [3, 3, 0], [1, 3, 0], [1, 1, 0]]]], 'Z'];
         yield 'testParsingMultiPolygonMValueWithSrid' => ['SRID=4326;MULTIPOLYGONM(((0 0 0,10 0 0,10 10 0,0 10 0,0 0 0),(5 5 1,7 5 1,7 7 1,5 7 1,5 5 1)),((1 1 0, 3 1 0, 3 3 0, 1 3 0, 1 1 0)))', 4326, [[[[0, 0, 0], [10, 0, 0], [10, 10, 0], [0, 10, 0], [0, 0, 0]], [[5, 5, 1], [7, 5, 1], [7, 7, 1], [5, 7, 1], [5, 5, 1]]], [[[1, 1, 0], [3, 1, 0], [3, 3, 0], [1, 3, 0], [1, 1, 0]]]], 'M'];
         yield 'testParsingMultiPolygonZMValueWithSrid' => ['SRID=4326;MULTIPOLYGONZM(((0 0 0 1,10 0 0 1,10 10 0 1,0 10 0 1,0 0 0 1),(5 5 1 2,7 5 1 2,7 7 1 2,5 7 1 2,5 5 1 2)),((1 1 0 3, 3 1 0 3, 3 3 0 3, 1 3 0 3, 1 1 0 3)))', 4326, [[[[0, 0, 0, 1], [10, 0, 0, 1], [10, 10, 0, 1], [0, 10, 0, 1], [0, 0, 0, 1]], [[5, 5, 1, 2], [7, 5, 1, 2], [7, 7, 1, 2], [5, 7, 1, 2], [5, 5, 1, 2]]], [[[1, 1, 0, 3], [3, 1, 0, 3], [3, 3, 0, 3], [1, 3, 0, 3], [1, 1, 0, 3]]]], 'ZM'];
-    }
-
-    /**
-     * @return \Generator<string, ?int, array<int|float>[], ?string>
-     */
-    public static function geometryCollectionProvider(): \Generator
-    {
-        yield 'testGeometryCollection' => ['GEOMETRYCOLLECTION(POINT(34.23 -87), LINESTRING(34.23 -87, 45.3 -92))', null, [['type' => 'POINT', 'value' => [34.23, -87]], ['type' => 'LINESTRING', 'value' => [[34.23, -87], [45.3, -92]]]], null];
-        yield 'testGeometryCollectionWithSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT(34.23 -87), LINESTRING(34.23 -87, 45.3 -92))', 4326, [['type' => 'POINT', 'value' => [34.23, -87]], ['type' => 'LINESTRING', 'value' => [[34.23, -87], [45.3, -92]]]], null];
-        yield 'testGeometryCollectionWithZ' => ['GEOMETRYCOLLECTION(POINT Z(34.23 -87 10), LINESTRING Z(34.23 -87 10, 45.3 -92 10))', null, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'Z'];
-        yield 'testGeometryCollectionWithZAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT Z(34.23 -87 10), LINESTRING Z(34.23 -87 10, 45.3 -92 10))', 4326, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'Z'];
-        yield 'testGeometryCollectionWithM' => ['GEOMETRYCOLLECTION(POINT M(34.23 -87 10), LINESTRING M(34.23 -87 10, 45.3 -92 10))', null, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'M'];
-        yield 'testGeometryCollectionWithMAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT M(34.23 -87 10), LINESTRING M(34.23 -87 10, 45.3 -92 10))', 4326, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'M'];
-        yield 'testGeometryCollectionWithZM' => ['GEOMETRYCOLLECTION(POINT ZM(34.23 -87 10 20), LINESTRING ZM(34.23 -87 10 20, 45.3 -92 10 20))', null, [['type' => 'POINT', 'value' => [34.23, -87, 10, 20]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10, 20], [45.3, -92, 10, 20]]]], 'ZM'];
-        yield 'testGeometryCollectionWithZMAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT ZM(34.23 -87 10 20), LINESTRING ZM(34.23 -87 10 20, 45.3 -92 10 20))', 4326, [['type' => 'POINT', 'value' => [34.23, -87, 10, 20]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10, 20], [45.3, -92, 10, 20]]]], 'ZM'];
     }
 
     /**
@@ -163,6 +163,18 @@ class ParserTest extends SpecificTestCase
     /**
      * @param array<int|float> $coordinates
      */
+    #[DataProvider('geometryCollectionProvider')]
+    public function testGeometryCollection(string $value, ?int $srid, array $coordinates, ?string $dimension): void
+    {
+        $parser = new Parser($value);
+        $actual = $parser->parse();
+
+        self::assertGeometryCollectionParsed($srid, $coordinates, $dimension, $actual);
+    }
+
+    /**
+     * @param array<int|float> $coordinates
+     */
     #[DataProvider('lineStringProvider')]
     public function testLineString(string $value, ?int $srid, array $coordinates, ?string $dimension): void
     {
@@ -170,18 +182,6 @@ class ParserTest extends SpecificTestCase
         $actual = $parser->parse();
 
         self::assertLineStringParsed($srid, $coordinates, $dimension, $actual);
-    }
-
-    /**
-     * @param array<int|float> $coordinates
-     */
-    #[DataProvider('multiPointProvider')]
-    public function testMultiPoint(string $value, ?int $srid, array $coordinates, ?string $dimension): void
-    {
-        $parser = new Parser($value);
-        $actual = $parser->parse();
-
-        self::assertMultiPointParsed($srid, $coordinates, $dimension, $actual);
     }
 
     /**
@@ -199,6 +199,18 @@ class ParserTest extends SpecificTestCase
     /**
      * @param array<int|float> $coordinates
      */
+    #[DataProvider('multiPointProvider')]
+    public function testMultiPoint(string $value, ?int $srid, array $coordinates, ?string $dimension): void
+    {
+        $parser = new Parser($value);
+        $actual = $parser->parse();
+
+        self::assertMultiPointParsed($srid, $coordinates, $dimension, $actual);
+    }
+
+    /**
+     * @param array<int|float> $coordinates
+     */
     #[DataProvider('multiPolygonProvider')]
     public function testMultiPolygon(string $value, ?int $srid, array $coordinates, ?string $dimension): void
     {
@@ -206,18 +218,6 @@ class ParserTest extends SpecificTestCase
         $actual = $parser->parse();
 
         self::assertMultiPolygonParsed($srid, $coordinates, $dimension, $actual);
-    }
-
-    /**
-     * @param array<int|float> $coordinates
-     */
-    #[DataProvider('geometryCollectionProvider')]
-    public function testGeometryCollection(string $value, ?int $srid, array $coordinates, ?string $dimension): void
-    {
-        $parser = new Parser($value);
-        $actual = $parser->parse();
-
-        self::assertGeometryCollectionParsed($srid, $coordinates, $dimension, $actual);
     }
 
     #[DataProvider('unexpectedValues')]
