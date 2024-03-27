@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 class LexerTest extends TestCase
 {
     /**
-     * @return \Generator<string,array{int,string,int}[]>
+     * @return \Generator{string, array{int, string, int}[]}
      */
     public static function tokenData(): \Generator
     {
@@ -126,6 +126,7 @@ class LexerTest extends TestCase
     }
 
     /**
+     * @param array{int, string, int}[] $expected
      * @dataProvider tokenData
      */
     public function testTokenRecognition(string $value, array $expected): void
@@ -137,9 +138,9 @@ class LexerTest extends TestCase
 
             $actual = $lexer->lookahead;
 
-            $this->assertEquals($token[0], $actual['type']);
-            $this->assertEquals($token[1], $actual['value']);
-            $this->assertEquals($token[2], $actual['position']);
+            $this->assertEquals($token[0], $actual->type);
+            $this->assertEquals($token[1], $actual->value);
+            $this->assertEquals($token[2], $actual->position);
         }
     }
 
@@ -155,9 +156,9 @@ class LexerTest extends TestCase
 
                 $actual = $lexer->lookahead;
 
-                $this->assertEquals($token[0], $actual['type']);
-                $this->assertEquals($token[1], $actual['value']);
-                $this->assertEquals($token[2], $actual['position']);
+                $this->assertEquals($token[0], $actual->type);
+                $this->assertEquals($token[1], $actual->value);
+                $this->assertEquals($token[2], $actual->position);
             }
         }
     }

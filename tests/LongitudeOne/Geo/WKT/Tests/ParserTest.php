@@ -23,7 +23,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class ParserTest extends SpecificTestCase
 {
     /**
-     * @return \Generator<string, ?int, array<int|float>[], ?string>
+     * return \Generator{string, ?int, array<int|float>[], ?string}
+     * @return \Generator{string, ?int, array, ?string}
      */
     public static function geometryCollectionProvider(): \Generator
     {

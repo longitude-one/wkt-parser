@@ -16,6 +16,8 @@ use Doctrine\Common\Lexer\AbstractLexer;
 
 /**
  * Convert spatial value to tokens.
+ *
+ * @extends AbstractLexer<int|string, int|float|string>
  */
 class Lexer extends AbstractLexer
 {
@@ -50,7 +52,6 @@ class Lexer extends AbstractLexer
     public const T_TIN = 616;
     public const T_TRIANGLE = 617;
 
-    // Geometry types > 600
     public const T_TYPE = 600;
     public const T_Z = 502;
     public const T_ZM = 501;
@@ -67,7 +68,7 @@ class Lexer extends AbstractLexer
 
     public function value(): mixed
     {
-        return $this->token['value'];
+        return $this->token?->value;
     }
 
     /**
@@ -93,7 +94,7 @@ class Lexer extends AbstractLexer
     /**
      * @param string $value
      */
-    protected function getType(&$value): int
+    protected function getType(&$value): int|string
     {
         if (is_numeric($value)) {
             $value += 0;
@@ -108,7 +109,7 @@ class Lexer extends AbstractLexer
         if (ctype_alpha($value)) {
             $name = __CLASS__.'::T_'.strtoupper($value);
 
-            if (defined($name)) {
+            if (defined($name) && is_int(constant($name))) {
                 return constant($name);
             }
 

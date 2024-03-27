@@ -32,6 +32,11 @@ class Parser
         }
     }
 
+    /**
+     * Parse WKT/EWKT string.
+     *
+     * @return array<string, null|int|float|array<int|float|array<int|float>>>
+     */
     public function parse(?string $input = null): array
     {
         if (null !== $input) {
@@ -77,14 +82,14 @@ class Parser
     }
 
     /**
-     * Match spatial geometry object.
+     * Match a spatial geometry object.
      */
     protected function geometry(): array
     {
         $type = $this->type();
 
         if ($this->lexer->isNextTokenAny([Lexer::T_Z, Lexer::T_M, Lexer::T_ZM])) {
-            $this->match($this->lexer->lookahead['type']);
+            $this->match($this->lexer->lookahead->type);
 
             $this->dimension = $this->lexer->value();
         }

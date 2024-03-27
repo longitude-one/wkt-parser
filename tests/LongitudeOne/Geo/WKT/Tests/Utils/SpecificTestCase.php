@@ -16,46 +16,75 @@ use PHPUnit\Framework\TestCase;
 
 class SpecificTestCase extends TestCase
 {
+    /**
+     * @param array<float|int> $expectedCoordinates
+     */
     protected static function assertGeometryCollectionParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
         self::assertParsed($expectedSrid, 'GEOMETRYCOLLECTION', $expectedCoordinates, $expectedDimension, $actual, $message);
     }
 
+    /**
+     * @param array<float|int> $expectedCoordinates
+     */
     protected static function assertGeometryParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
         self::assertParsed($expectedSrid, 'GEOMETRY', $expectedCoordinates, $expectedDimension, $actual, $message);
     }
 
+    /**
+     * @param array<float|int> $expectedCoordinates
+     */
     protected static function assertLineStringParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
         self::assertParsed($expectedSrid, 'LINESTRING', $expectedCoordinates, $expectedDimension, $actual, $message);
     }
 
+    /**
+     * @param array<float|int> $expectedCoordinates
+     */
     protected static function assertMultiLineStringParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
         self::assertParsed($expectedSrid, 'MULTILINESTRING', $expectedCoordinates, $expectedDimension, $actual, $message);
     }
 
+    /**
+     * @param array<float|int> $expectedCoordinates
+     */
     protected static function assertMultiPointParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
         self::assertParsed($expectedSrid, 'MULTIPOINT', $expectedCoordinates, $expectedDimension, $actual, $message);
     }
 
+    /**
+     * @param array<float|int> $expectedCoordinates
+     */
     protected static function assertMultiPolygonParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
         self::assertParsed($expectedSrid, 'MULTIPOLYGON', $expectedCoordinates, $expectedDimension, $actual, $message);
     }
 
+    /**
+     * @param array<float|int> $expectedCoordinates
+     * @param array{int, ?string, array<float|int|array<int|float>>, ?string} $actual
+     */
     protected static function assertPointParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
         self::assertParsed($expectedSrid, 'POINT', $expectedCoordinates, $expectedDimension, $actual, $message);
     }
 
+    /**
+     * @param array<float|int> $expectedCoordinates
+     */
     protected static function assertPolygonParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
         self::assertParsed($expectedSrid, 'POLYGON', $expectedCoordinates, $expectedDimension, $actual, $message);
     }
 
+    /**
+     * @param array<float|int|array<int|float>> $expectedCoordinates
+     * @param array{int, ?string, array<float|int|array<int|float>>, ?string} $actual
+     */
     private static function assertParsed(?int $expectedSrid, string $type, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
         $expected['type'] = $type;
