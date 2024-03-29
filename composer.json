@@ -24,7 +24,8 @@
         "creof/wkt-parser": "*"
     },
     "require": {
-        "php":            "^8.1",
+        "php": "^8.1",
+        "ext-ctype": "*",
         "doctrine/lexer": "^2.1"
     },
     "require-dev": {
