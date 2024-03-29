@@ -295,4 +295,12 @@ class ParserTest extends SpecificTestCase
             self::assertGeometryCollectionParsed($testData[1], $testData[2], $testData[3], $actual, 'Failed dataset "'.$name.'"');
         }
     }
+
+    public function testNullParser(): void
+    {
+        $parser = new Parser();
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('No value provided');
+        $parser->parse();
+    }
 }

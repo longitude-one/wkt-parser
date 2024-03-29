@@ -36,11 +36,6 @@ parameters:
 			path: ../../lib/LongitudeOne/Geo/WKT/Parser.php
 
 		-
-			message: "#^Parameter \\#1 \\$input of method Doctrine\\\\Common\\\\Lexer\\\\AbstractLexer\\<int,float\\|int\\|string\\>\\:\\:setInput\\(\\) expects string, string\\|null given\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/Geo/WKT/Parser.php
-
-		-
 			message: "#^Parameter \\#1 \\$token of method LongitudeOne\\\\Geo\\\\WKT\\\\Parser\\:\\:match\\(\\) expects int, int\\|null given\\.$#"
 			count: 1
 			path: ../../lib/LongitudeOne/Geo/WKT/Parser.php
