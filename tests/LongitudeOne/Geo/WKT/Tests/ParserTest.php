@@ -223,8 +223,8 @@ class ParserTest extends SpecificTestCase
     public function testNullParser(): void
     {
         $parser = new Parser();
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('No value provided');
+        self::expectException(UnexpectedValueException::class);
+        self::expectExceptionMessage('No value provided');
         $parser->parse();
     }
 
@@ -233,8 +233,8 @@ class ParserTest extends SpecificTestCase
     {
         $parser = new Parser($value);
 
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage($exceptionMessage);
+        self::expectException(UnexpectedValueException::class);
+        self::expectExceptionMessage($exceptionMessage);
 
         $parser->parse();
     }

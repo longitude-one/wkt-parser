@@ -141,9 +141,9 @@ class LexerTest extends TestCase
             $actual = $lexer->lookahead;
 
             self::assertInstanceOf(Token::class, $actual);
-            $this->assertEquals($token[0], $actual->type);
-            $this->assertEquals($token[1], $actual->value);
-            $this->assertEquals($token[2], $actual->position);
+            self::assertEquals($token[0], $actual->type);
+            self::assertEquals($token[1], $actual->value);
+            self::assertEquals($token[2], $actual->position);
         }
     }
 
