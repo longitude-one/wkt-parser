@@ -5,8 +5,18 @@
     "keywords": ["parser", "lexer", "string", "text", "geometry", "geography", "spatial", "wkt", "ewkt"],
     "authors": [
         {
+            "name":  "Alexandre Tranchant",
+            "email": "alexandre.tranchant@gmail.com"
+        },
+        {
+            "name":  "axi"
+        },
+        {
             "name":  "Derek J. Lambert",
             "email": "dlambert@dereklambert.com"
+        },
+        {
+            "name":  "ellisgl"
         }
     ],
     "license": "MIT",
@@ -14,12 +24,11 @@
         "creof/wkt-parser": "*"
     },
     "require": {
-        "php":            ">=8.1",
-        "ext-SPL":        "*",
-        "doctrine/lexer": "~1.0 || ^2.1"
+        "php":            "^8.1",
+        "doctrine/lexer": "^2.1"
     },
     "require-dev": {
-        "phpunit/phpunit": ">=8.5"
+        "phpunit/phpunit": "^10.5"
     },
     "autoload": {
         "psr-0": {
