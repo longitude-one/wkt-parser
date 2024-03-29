@@ -23,8 +23,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class ParserTest extends SpecificTestCase
 {
     /**
-     * return \Generator{string, ?int, array<int|float>[], ?string}
-     * @return \Generator{string, ?int, array, ?string}
+     * @return \Generator{0:string, 1:int|null, 2:array<array<int|float>>, 3:string|null}
      */
     public static function geometryCollectionProvider(): \Generator
     {
@@ -39,7 +38,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator<string, ?int, array<int|float>[], ?string>
+     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
      */
     public static function lineStringProvider(): \Generator
     {
@@ -54,7 +53,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator<string, ?int, array<int|float>[], ?string>
+     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
      */
     public static function multiLineStringProvider(): \Generator
     {
@@ -69,7 +68,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator<string, ?int, array<int|float>[], ?string>
+     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
      */
     public static function multiPointProvider(): \Generator
     {
@@ -84,7 +83,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator<string, ?int, array<int|float>[], ?string>
+     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
      */
     public static function multiPolygonProvider(): \Generator
     {
@@ -99,7 +98,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator<string, ?int, array<int|float>, ?string>
+     * @return \Generator{0: string, 1: ?int, 2: array<int|float>, 3: ?string}
      */
     public static function pointProvider(): \Generator
     {
@@ -118,7 +117,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator<string, ?int, array<int|float>[], ?string>
+     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
      */
     public static function polygonProvider(): \Generator
     {
@@ -135,7 +134,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator<string, string>
+     * @return \Generator{0: string, 1: string}
      */
     public static function unexpectedValues(): \Generator
     {
@@ -162,7 +161,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @param array<int|float> $coordinates
+     * @param array<float|int>[] $coordinates
      */
     #[DataProvider('geometryCollectionProvider')]
     public function testGeometryCollection(string $value, ?int $srid, array $coordinates, ?string $dimension): void
@@ -174,7 +173,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @param array<int|float> $coordinates
+     * @param array<float|int>[] $coordinates
      */
     #[DataProvider('lineStringProvider')]
     public function testLineString(string $value, ?int $srid, array $coordinates, ?string $dimension): void
@@ -186,7 +185,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @param array<int|float> $coordinates
+     * @param array<float|int>[] $coordinates
      */
     #[DataProvider('multiLineStringProvider')]
     public function testMultiLineString(string $value, ?int $srid, array $coordinates, ?string $dimension): void
@@ -198,7 +197,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @param array<int|float> $coordinates
+     * @param array<float|int>[] $coordinates
      */
     #[DataProvider('multiPointProvider')]
     public function testMultiPoint(string $value, ?int $srid, array $coordinates, ?string $dimension): void
@@ -210,7 +209,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @param array<int|float> $coordinates
+     * @param array<float|int>[] $coordinates
      */
     #[DataProvider('multiPolygonProvider')]
     public function testMultiPolygon(string $value, ?int $srid, array $coordinates, ?string $dimension): void
@@ -245,7 +244,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @param array<int|float> $coordinates
+     * @param array<int|float>[] $coordinates
      */
     #[DataProvider('polygonProvider')]
     public function testPolygon(string $value, ?int $srid, array $coordinates, ?string $dimension): void
@@ -261,30 +260,37 @@ class ParserTest extends SpecificTestCase
         $parser = new Parser();
 
         foreach (self::pointProvider() as $name => $testData) {
+            /** @var array{0: string, 1: ?int, 2: array<int|float>, 3: ?string} $testData */
             $actual = $parser->parse($testData[0]);
             self::assertPointParsed($testData[1], $testData[2], $testData[3], $actual, 'Failed dataset "'.$name.'"');
         }
         foreach (self::lineStringProvider() as $name => $testData) {
+            /** @var array{0: string, 1: ?int, 2: array<int|float>[], 3: ?string} $testData */
             $actual = $parser->parse($testData[0]);
             self::assertLineStringParsed($testData[1], $testData[2], $testData[3], $actual, 'Failed dataset "'.$name.'"');
         }
         foreach (self::polygonProvider() as $name => $testData) {
+            /** @var array{0: string, 1: ?int, 2: array<int|float>[], 3: ?string} $testData */
             $actual = $parser->parse($testData[0]);
             self::assertPolygonParsed($testData[1], $testData[2], $testData[3], $actual, 'Failed dataset "'.$name.'"');
         }
         foreach (self::multiPointProvider() as $name => $testData) {
+            /** @var array{0: string, 1: ?int, 2: array<int|float>[], 3: ?string} $testData */
             $actual = $parser->parse($testData[0]);
             self::assertMultiPointParsed($testData[1], $testData[2], $testData[3], $actual, 'Failed dataset "'.$name.'"');
         }
         foreach (self::multiLineStringProvider() as $name => $testData) {
+            /** @var array{0: string, 1: ?int, 2: array<int|float>[], 3: ?string} $testData */
             $actual = $parser->parse($testData[0]);
             self::assertMultiLineStringParsed($testData[1], $testData[2], $testData[3], $actual, 'Failed dataset "'.$name.'"');
         }
         foreach (self::multiPolygonProvider() as $name => $testData) {
+            /** @var array{0: string, 1: ?int, 2: array<int|float>[], 3: ?string} $testData */
             $actual = $parser->parse($testData[0]);
             self::assertMultiPolygonParsed($testData[1], $testData[2], $testData[3], $actual, 'Failed dataset "'.$name.'"');
         }
         foreach (self::geometryCollectionProvider() as $name => $testData) {
+            /** @var array{0:string, 1:int|null, 2:array<array<int|float>>, 3:string|null} $testData */
             $actual = $parser->parse($testData[0]);
             self::assertGeometryCollectionParsed($testData[1], $testData[2], $testData[3], $actual, 'Failed dataset "'.$name.'"');
         }

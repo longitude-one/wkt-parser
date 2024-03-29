@@ -12,6 +12,7 @@
 
 namespace LongitudeOne\Geo\WKT\Tests;
 
+use Doctrine\Common\Lexer\Token;
 use LongitudeOne\Geo\WKT\Lexer;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 class LexerTest extends TestCase
 {
     /**
-     * @return \Generator{string, array{int, string, int}[]}
+     * @return \Generator<string, array{0:string, 1:array{0:int,1:string|int|float,2:int}[]}, null, void>
      */
     public static function tokenData(): \Generator
     {
@@ -126,7 +127,8 @@ class LexerTest extends TestCase
     }
 
     /**
-     * @param array{int, string, int}[] $expected
+     * @param array{0: int, 1: string|float|int, 2: int}[] $expected
+     *
      * @dataProvider tokenData
      */
     public function testTokenRecognition(string $value, array $expected): void
@@ -138,6 +140,7 @@ class LexerTest extends TestCase
 
             $actual = $lexer->lookahead;
 
+            self::assertInstanceOf(Token::class, $actual);
             $this->assertEquals($token[0], $actual->type);
             $this->assertEquals($token[1], $actual->value);
             $this->assertEquals($token[2], $actual->position);
@@ -156,9 +159,10 @@ class LexerTest extends TestCase
 
                 $actual = $lexer->lookahead;
 
-                $this->assertEquals($token[0], $actual->type);
-                $this->assertEquals($token[1], $actual->value);
-                $this->assertEquals($token[2], $actual->position);
+                self::assertInstanceOf(Token::class, $actual);
+                self::assertEquals($token[0], $actual->type);
+                self::assertEquals($token[1], $actual->value);
+                self::assertEquals($token[2], $actual->position);
             }
         }
     }

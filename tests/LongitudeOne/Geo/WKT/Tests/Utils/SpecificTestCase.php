@@ -17,7 +17,8 @@ use PHPUnit\Framework\TestCase;
 class SpecificTestCase extends TestCase
 {
     /**
-     * @param array<float|int> $expectedCoordinates
+     * @param array<array<int|float>>                                                                               $expectedCoordinates
+     * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
      */
     protected static function assertGeometryCollectionParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -25,7 +26,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * @param array<float|int> $expectedCoordinates
+     * @param array<array<int|float>>                                                                               $expectedCoordinates
+     * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
      */
     protected static function assertGeometryParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -33,7 +35,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * @param array<float|int> $expectedCoordinates
+     * @param array<float|int>[]                                                                                    $expectedCoordinates
+     * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
      */
     protected static function assertLineStringParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -41,7 +44,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * @param array<float|int> $expectedCoordinates
+     * @param array<float|int>[]                                                                                    $expectedCoordinates
+     * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
      */
     protected static function assertMultiLineStringParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -49,7 +53,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * @param array<float|int> $expectedCoordinates
+     * @param array<float|int>[]                                                                                    $expectedCoordinates
+     * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
      */
     protected static function assertMultiPointParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -57,7 +62,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * @param array<float|int> $expectedCoordinates
+     * @param array<float|int>[]                                                                                    $expectedCoordinates
+     * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
      */
     protected static function assertMultiPolygonParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -65,8 +71,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * @param array<float|int> $expectedCoordinates
-     * @param array{int, ?string, array<float|int|array<int|float>>, ?string} $actual
+     * @param array<float|int>                                                                                      $expectedCoordinates
+     * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
      */
     protected static function assertPointParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -74,7 +80,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * @param array<float|int> $expectedCoordinates
+     * @param array<float|int>[]                                                                                    $expectedCoordinates
+     * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
      */
     protected static function assertPolygonParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -82,8 +89,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * @param array<float|int|array<int|float>> $expectedCoordinates
-     * @param array{int, ?string, array<float|int|array<int|float>>, ?string} $actual
+     * @param array<float|int|array<int|float>>                                                                     $expectedCoordinates
+     * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
      */
     private static function assertParsed(?int $expectedSrid, string $type, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
