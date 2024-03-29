@@ -220,6 +220,14 @@ class ParserTest extends SpecificTestCase
         self::assertMultiPolygonParsed($srid, $coordinates, $dimension, $actual);
     }
 
+    public function testNullParser(): void
+    {
+        $parser = new Parser();
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('No value provided');
+        $parser->parse();
+    }
+
     #[DataProvider('unexpectedValues')]
     public function testParserWithUnexpectedValues(string $value, string $exceptionMessage): void
     {
@@ -294,13 +302,5 @@ class ParserTest extends SpecificTestCase
             $actual = $parser->parse($testData[0]);
             self::assertGeometryCollectionParsed($testData[1], $testData[2], $testData[3], $actual, 'Failed dataset "'.$name.'"');
         }
-    }
-
-    public function testNullParser(): void
-    {
-        $parser = new Parser();
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('No value provided');
-        $parser->parse();
     }
 }
