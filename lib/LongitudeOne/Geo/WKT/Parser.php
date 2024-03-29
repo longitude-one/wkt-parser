@@ -45,7 +45,10 @@ class Parser
             $this->input = $input;
         }
 
-        // TODO ADD a test with empty parameters for constructor and the parse method.
+        if (null === $this->input) {
+            throw new UnexpectedValueException('No value provided');
+        }
+
         $this->lexer->setInput($this->input);
         $this->lexer->moveNext();
 
