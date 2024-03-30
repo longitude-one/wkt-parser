@@ -17,6 +17,15 @@ use PHPUnit\Framework\TestCase;
 class SpecificTestCase extends TestCase
 {
     /**
+     * @param array<float|int>[]                                                                                    $expectedCoordinates
+     * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
+     */
+    protected static function assertCircularStringParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
+    {
+        self::assertParsed($expectedSrid, 'CIRCULARSTRING', $expectedCoordinates, $expectedDimension, $actual, $message);
+    }
+
+    /**
      * @param array<array<int|float>>                                                                               $expectedCoordinates
      * @param array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null} $actual
      */

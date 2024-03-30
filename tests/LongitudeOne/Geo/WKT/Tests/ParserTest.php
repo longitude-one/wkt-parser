@@ -12,6 +12,7 @@
 
 namespace LongitudeOne\Geo\WKT\Tests;
 
+use LongitudeOne\Geo\WKT\Exception\NotYetImplementedException;
 use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
 use LongitudeOne\Geo\WKT\Parser;
 use LongitudeOne\Geo\WKT\Tests\Utils\SpecificTestCase;
@@ -22,6 +23,14 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class ParserTest extends SpecificTestCase
 {
+    /**
+     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
+     */
+    public static function circularStringProvider(): \Generator
+    {
+        yield 'testCircularString' => ['CIRCULARSTRING(0 0, 1 1, 1 0)', null, [[0, 0], [1, 1], [1, 0]], null];
+    }
+
     /**
      * @return \Generator{0:string, 1:int|null, 2:array<array<int|float>>, 3:string|null}
      */
@@ -158,6 +167,22 @@ class ParserTest extends SpecificTestCase
         yield 'testParsingMultiPolygonValueMissingParenthesis' => ['MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7,5 5)),(1 1, 3 1, 3 3, 1 3, 1 1))', '[Syntax Error] line 0, col 64: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_OPEN_PARENTHESIS, got "1" in value "MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7,5 5)),(1 1, 3 1, 3 3, 1 3, 1 1))"'];
         yield 'testParsingGeometryCollectionValueWithBadType' => ['GEOMETRYCOLLECTION(PNT(10 10), POINT(30 30), LINESTRING(15 15, 20 20))', '[Syntax Error] line 0, col 19: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_TYPE, got "PNT" in value "GEOMETRYCOLLECTION(PNT(10 10), POINT(30 30), LINESTRING(15 15, 20 20))"'];
         yield 'testParsingGeometryCollectionValueWithMismatchedDimension' => ['GEOMETRYCOLLECTION(POINT(10 10), POINT(30 30 10), LINESTRING(15 15, 20 20))', '[Syntax Error] line 0, col 45: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "10" in value "GEOMETRYCOLLECTION(POINT(10 10), POINT(30 30 10), LINESTRING(15 15, 20 20))"'];
+    }
+
+    /**
+     * @param array<int|float>[] $coordinates
+     */
+    #[DataProvider('circularStringProvider')]
+    public function testCircularString(string $value, ?int $srid, array $coordinates, ?string $dimension): void
+    {
+        $parser = new Parser($value);
+        self::expectException(NotYetImplementedException::class);
+        self::expectExceptionMessage('The LongitudeOne\Geo\WKT\Parser is not yet able to parse CIRCULARSTRING.');
+        $parser->parse();
+
+        // Remove the preceding lines and uncomment the following ones when Parser::circularString will be implemented
+        $actual = $parser->parse();
+        self::assertCircularStringParsed($srid, $coordinates, $dimension, $actual);
     }
 
     /**
