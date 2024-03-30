@@ -99,6 +99,7 @@ class LexerTest extends TestCase
         yield '-25' => ['-25', [[Lexer::T_INTEGER, -25, 0]]];
         yield '-120.33' => ['-120.33', [[Lexer::T_FLOAT, -120.33, 0]]];
         yield '0.0' => ['0.0', [[Lexer::T_FLOAT, 0.0, 0]]];
+        yield '1e-5' => ['1e-5', [[Lexer::T_FLOAT, 0.00001, 0]]];
 
         yield 'SRID' => ['SRID', [[Lexer::T_SRID, 'SRID', 0]]];
         yield 'SRID=4326;LINESTRING(0 0.0, 10.1 -10.025, 20.5 25.9, 53E-003 60)' => [
