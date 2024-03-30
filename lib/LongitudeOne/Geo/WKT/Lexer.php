@@ -56,13 +56,35 @@ class Lexer extends AbstractLexer
     public const T_ZM = 501;
 
     /**
-     * @param string $input a query string
+     * @param string|int|float $input a query string
      */
     public function __construct($input = null)
     {
-        if (null !== $input) {
-            $this->setInput($input);
+        if (!is_null($input) && !is_string($input)) {
+            trigger_error(
+                'Since longitudeone/wkt-parser 2.1: Passing a float or an integer to LongitudeOne\WKT\String\Lexer::__construct() is deprecated. Use a string instead.',
+                E_USER_DEPRECATED
+            );
         }
+
+        if (null !== $input) {
+            $this->setInput((string) $input);
+        }
+    }
+
+    /**
+     * @param ?string $input
+     */
+    public function setInput($input): void
+    {
+        if (!is_null($input) && !is_string($input)) {
+            trigger_error(
+                'Since longitudeone/wkt-parser 2.1: Passing a float or an integer to LongitudeOne\WKT\String\Lexer::setInput() is deprecated. Use a string instead.',
+                E_USER_DEPRECATED
+            );
+        }
+
+        parent::setInput((string) $input);
     }
 
     public function value(): int|float|string

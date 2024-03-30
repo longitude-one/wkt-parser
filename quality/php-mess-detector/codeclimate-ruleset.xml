@@ -11,6 +11,7 @@
     <rule ref="rulesets/unusedcode.xml" />
     <!-- Import the entire codeside rule -->
     <rule ref="rulesets/codesize.xml">
+        <!-- Exclude the ExcessiveMethodLength rule, because there are never too many tests in provider -->
         <exclude name="ExcessiveMethodLength"/>
         <!-- Exclude the TooManyPublicMethods rule, because there are never too many tests -->
         <exclude name="TooManyPublicMethods"/>
