@@ -12,6 +12,7 @@
 
 namespace LongitudeOne\Geo\WKT;
 
+use LongitudeOne\Geo\WKT\Exception\NotYetImplementedException;
 use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
 
 /**
@@ -108,8 +109,17 @@ class Parser
 
         $this->match(Lexer::T_OPEN_PARENTHESIS);
 
-        // FIXME SECURITY: replace with a match function and throw an InvalidArgumentException
-        $value = $this->$type();
+        $value = match ($type) {
+            'GEOMETRYCOLLECTION' => $this->geometryCollection(),
+            'LINESTRING' => $this->lineString(),
+            'MULTILINESTRING' => $this->multiLineString(),
+            'MULTIPOINT' => $this->multiPoint(),
+            'MULTIPOLYGON' => $this->multiPolygon(),
+            'POINT' => $this->point(),
+            'POLYGON' => $this->polygon(),
+            // TODO Add all types!
+            default => throw new NotYetImplementedException($type),
+        };
 
         $this->match(Lexer::T_CLOSE_PARENTHESIS);
 
