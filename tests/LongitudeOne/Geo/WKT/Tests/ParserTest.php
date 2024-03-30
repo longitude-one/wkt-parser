@@ -36,14 +36,14 @@ class ParserTest extends SpecificTestCase
      */
     public static function geometryCollectionProvider(): \Generator
     {
-        yield 'testGeometryCollection' => ['GEOMETRYCOLLECTION(POINT(34.23 -87), LINESTRING(34.23 -87, 45.3 -92))', null, [['type' => 'POINT', 'value' => [34.23, -87]], ['type' => 'LINESTRING', 'value' => [[34.23, -87], [45.3, -92]]]], null];
-        yield 'testGeometryCollectionWithSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT(34.23 -87), LINESTRING(34.23 -87, 45.3 -92))', 4326, [['type' => 'POINT', 'value' => [34.23, -87]], ['type' => 'LINESTRING', 'value' => [[34.23, -87], [45.3, -92]]]], null];
-        yield 'testGeometryCollectionWithZ' => ['GEOMETRYCOLLECTION(POINT Z(34.23 -87 10), LINESTRING Z(34.23 -87 10, 45.3 -92 10))', null, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'Z'];
-        yield 'testGeometryCollectionWithZAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT Z(34.23 -87 10), LINESTRING Z(34.23 -87 10, 45.3 -92 10))', 4326, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'Z'];
-        yield 'testGeometryCollectionWithM' => ['GEOMETRYCOLLECTION(POINT M(34.23 -87 10), LINESTRING M(34.23 -87 10, 45.3 -92 10))', null, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'M'];
-        yield 'testGeometryCollectionWithMAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT M(34.23 -87 10), LINESTRING M(34.23 -87 10, 45.3 -92 10))', 4326, [['type' => 'POINT', 'value' => [34.23, -87, 10]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10], [45.3, -92, 10]]]], 'M'];
-        yield 'testGeometryCollectionWithZM' => ['GEOMETRYCOLLECTION(POINT ZM(34.23 -87 10 20), LINESTRING ZM(34.23 -87 10 20, 45.3 -92 10 20))', null, [['type' => 'POINT', 'value' => [34.23, -87, 10, 20]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10, 20], [45.3, -92, 10, 20]]]], 'ZM'];
-        yield 'testGeometryCollectionWithZMAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT ZM(34.23 -87 10 20), LINESTRING ZM(34.23 -87 10 20, 45.3 -92 10 20))', 4326, [['type' => 'POINT', 'value' => [34.23, -87, 10, 20]], ['type' => 'LINESTRING', 'value' => [[34.23, -87, 10, 20], [45.3, -92, 10, 20]]]], 'ZM'];
+        yield 'testGeometryCollection' => ['GEOMETRYCOLLECTION(POINT(34.23 -87), LINESTRING(34.23 -87, 45.3 -92))', null, [['type' => 'POINT', 'value' => ['34.23', -87]], ['type' => 'LINESTRING', 'value' => [['34.23', -87], ['45.3', -92]]]], null];
+        yield 'testGeometryCollectionWithSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT(34.23 -87), LINESTRING(34.23 -87, 45.3 -92))', 4326, [['type' => 'POINT', 'value' => ['34.23', -87]], ['type' => 'LINESTRING', 'value' => [['34.23', -87], ['45.3', -92]]]], null];
+        yield 'testGeometryCollectionWithZ' => ['GEOMETRYCOLLECTION(POINT Z(34.23 -87 10), LINESTRING Z(34.23 -87 10, 45.3 -92 10))', null, [['type' => 'POINT', 'value' => ['34.23', -87, 10]], ['type' => 'LINESTRING', 'value' => [['34.23', -87, 10], ['45.3', -92, 10]]]], 'Z'];
+        yield 'testGeometryCollectionWithZAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT Z(34.23 -87 10), LINESTRING Z(34.23 -87 10, 45.3 -92 10))', 4326, [['type' => 'POINT', 'value' => ['34.23', -87, 10]], ['type' => 'LINESTRING', 'value' => [['34.23', -87, 10], ['45.3', -92, 10]]]], 'Z'];
+        yield 'testGeometryCollectionWithM' => ['GEOMETRYCOLLECTION(POINT M(34.23 -87 10), LINESTRING M(34.23 -87 10, 45.3 -92 10))', null, [['type' => 'POINT', 'value' => ['34.23', -87, 10]], ['type' => 'LINESTRING', 'value' => [['34.23', -87, 10], ['45.3', -92, 10]]]], 'M'];
+        yield 'testGeometryCollectionWithMAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT M(34.23 -87 10), LINESTRING M(34.23 -87 10, 45.3 -92 10))', 4326, [['type' => 'POINT', 'value' => ['34.23', -87, 10]], ['type' => 'LINESTRING', 'value' => [['34.23', -87, 10], ['45.3', -92, 10]]]], 'M'];
+        yield 'testGeometryCollectionWithZM' => ['GEOMETRYCOLLECTION(POINT ZM(34.23 -87 10 20), LINESTRING ZM(34.23 -87 10 20, 45.3 -92 10 20))', null, [['type' => 'POINT', 'value' => ['34.23', -87, 10, 20]], ['type' => 'LINESTRING', 'value' => [['34.23', -87, 10, 20], ['45.3', -92, 10, 20]]]], 'ZM'];
+        yield 'testGeometryCollectionWithZMAndSrid' => ['SRID=4326;GEOMETRYCOLLECTION(POINT ZM(34.23 -87 10 20), LINESTRING ZM(34.23 -87 10 20, 45.3 -92 10 20))', 4326, [['type' => 'POINT', 'value' => ['34.23', -87, 10, 20]], ['type' => 'LINESTRING', 'value' => [['34.23', -87, 10, 20], ['45.3', -92, 10, 20]]]], 'ZM'];
     }
 
     /**
@@ -51,14 +51,14 @@ class ParserTest extends SpecificTestCase
      */
     public static function lineStringProvider(): \Generator
     {
-        yield 'testParsingLineStringValue' => ['LINESTRING(34.23 -87, 45.3 -92)', null, [[34.23, -87], [45.3, -92]], null];
-        yield 'testParsingLineStringZValue' => ['LINESTRING(34.23 -87 10, 45.3 -92 10)', null, [[34.23, -87, 10], [45.3, -92, 10]], 'Z'];
-        yield 'testParsingLineStringMValue' => ['LINESTRINGM(34.23 -87 10, 45.3 -92 10)', null, [[34.23, -87, 10], [45.3, -92, 10]], 'M'];
-        yield 'testParsingLineStringZMValue' => ['LINESTRINGZM(34.23 -87 10 20, 45.3 -92 10 20)', null, [[34.23, -87, 10, 20], [45.3, -92, 10, 20]], 'ZM'];
-        yield 'testParsingLineStringValueWithSrid' => ['SRID=4326;LINESTRING(34.23 -87, 45.3 -92)', 4326, [[34.23, -87], [45.3, -92]], null];
-        yield 'testParsingLineStringZValueWithSrid' => ['SRID=4326;LINESTRING(34.23 -87 10, 45.3 -92 10)', 4326, [[34.23, -87, 10], [45.3, -92, 10]], 'Z'];
-        yield 'testParsingLineStringMValueWithSrid' => ['SRID=4326;LINESTRINGM(34.23 -87 10, 45.3 -92 10)', 4326, [[34.23, -87, 10], [45.3, -92, 10]], 'M'];
-        yield 'testParsingLineStringZMValueWithSrid' => ['SRID=4326;LINESTRINGZM(34.23 -87 10 20, 45.3 -92 10 20)', 4326, [[34.23, -87, 10, 20], [45.3, -92, 10, 20]], 'ZM'];
+        yield 'testParsingLineStringValue' => ['LINESTRING(34.23 -87, 45.3 -92)', null, [['34.23', -87], ['45.3', -92]], null];
+        yield 'testParsingLineStringZValue' => ['LINESTRING(34.23 -87 10, 45.3 -92 10)', null, [['34.23', -87, 10], ['45.3', -92, 10]], 'Z'];
+        yield 'testParsingLineStringMValue' => ['LINESTRINGM(34.23 -87 10, 45.3 -92 10)', null, [['34.23', -87, 10], ['45.3', -92, 10]], 'M'];
+        yield 'testParsingLineStringZMValue' => ['LINESTRINGZM(34.23 -87 10 20, 45.3 -92 10 20)', null, [['34.23', -87, 10, 20], ['45.3', -92, 10, 20]], 'ZM'];
+        yield 'testParsingLineStringValueWithSrid' => ['SRID=4326;LINESTRING(34.23 -87, 45.3 -92)', 4326, [['34.23', -87], ['45.3', -92]], null];
+        yield 'testParsingLineStringZValueWithSrid' => ['SRID=4326;LINESTRING(34.23 -87 10, 45.3 -92 10)', 4326, [['34.23', -87, 10], ['45.3', -92, 10]], 'Z'];
+        yield 'testParsingLineStringMValueWithSrid' => ['SRID=4326;LINESTRINGM(34.23 -87 10, 45.3 -92 10)', 4326, [['34.23', -87, 10], ['45.3', -92, 10]], 'M'];
+        yield 'testParsingLineStringZMValueWithSrid' => ['SRID=4326;LINESTRINGZM(34.23 -87 10 20, 45.3 -92 10 20)', 4326, [['34.23', -87, 10, 20], ['45.3', -92, 10, 20]], 'ZM'];
     }
 
     /**
@@ -111,18 +111,18 @@ class ParserTest extends SpecificTestCase
      */
     public static function pointProvider(): \Generator
     {
-        yield 'testParsingPointValue' => ['POINT(34.23 -87)', null, [34.23, -87], null];
-        yield 'testParsingPointZValue' => ['POINT(34.23 -87 10)', null, [34.23, -87, 10], 'Z'];
-        yield 'testParsingPointDeclaredZValue' => ['POINTZ(34.23 -87 10)', null, [34.23, -87, 10], 'Z'];
-        yield 'testParsingPointMValue' => ['POINTM(34.23 -87 10)', null, [34.23, -87, 10], 'M'];
-        yield 'testParsingPointZMValue' => ['POINT(34.23 -87 10 30)', null, [34.23, -87, 10, 30], 'ZM'];
-        yield 'testParsingPointDeclaredZMValue' => ['POINT ZM(34.23 -87 10 30)', null, [34.23, -87, 10, 30], 'ZM'];
-        yield 'testParsingPointValueWithSrid' => ['SRID=4326;POINT(34.23 -87)', 4326, [34.23, -87], null];
-        yield 'testParsingPointZValueWithSrid' => ['SRID=4326;POINT(34.23 -87 10)', 4326, [34.23, -87, 10], 'Z'];
-        yield 'testParsingPointValueScientificWithSrid' => ['SRID=4326;POINT(4.23e-005 -8E-003)', 4326, [0.0000423, -0.008], null];
-        yield 'testParsingPointValueScientific' => ['POINT(4.23e-005 -8E-003)', null, [0.0000423, -0.008], null];
-        yield 'testParsingPointMValueWithSrid' => ['SRID=4326;POINTM(34.23 -87 10)', 4326, [34.23, -87, 10], 'M'];
-        yield 'testParsingPointZMValueWithSrid' => ['SRID=4326;POINT(34.23 -87 10 30)', 4326, [34.23, -87, 10, 30], 'ZM'];
+        yield 'testParsingPointValue' => ['POINT(34.23 -87)', null, ['34.23', -87], null];
+        yield 'testParsingPointZValue' => ['POINT(34.23 -87 10)', null, ['34.23', -87, 10], 'Z'];
+        yield 'testParsingPointDeclaredZValue' => ['POINTZ(34.23 -87 10)', null, ['34.23', -87, 10], 'Z'];
+        yield 'testParsingPointMValue' => ['POINTM(34.23 -87 10)', null, ['34.23', -87, 10], 'M'];
+        yield 'testParsingPointZMValue' => ['POINT(34.23 -87 10 30)', null, ['34.23', -87, 10, 30], 'ZM'];
+        yield 'testParsingPointDeclaredZMValue' => ['POINT ZM(34.23 -87 10 30)', null, ['34.23', -87, 10, 30], 'ZM'];
+        yield 'testParsingPointValueWithSrid' => ['SRID=4326;POINT(34.23 -87)', 4326, ['34.23', -87], null];
+        yield 'testParsingPointZValueWithSrid' => ['SRID=4326;POINT(34.23 -87 10)', 4326, ['34.23', -87, 10], 'Z'];
+        yield 'testParsingPointValueScientificWithSrid' => ['SRID=4326;POINT(4.23e-005 -8E-003)', 4326, ['4.23E-5', '-0.008'], null];
+        yield 'testParsingPointValueScientific' => ['POINT(4.23e-005 -8E-003)', null, ['4.23E-5', '-0.008'], null];
+        yield 'testParsingPointMValueWithSrid' => ['SRID=4326;POINTM(34.23 -87 10)', 4326, ['34.23', -87, 10], 'M'];
+        yield 'testParsingPointZMValueWithSrid' => ['SRID=4326;POINT(34.23 -87 10 30)', 4326, ['34.23', -87, 10, 30], 'ZM'];
     }
 
     /**
