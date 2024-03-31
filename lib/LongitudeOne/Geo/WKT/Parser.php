@@ -36,9 +36,9 @@ class Parser
     /**
      * Parse WKT/EWKT string.
      *
-     * geometryCollection
+     * return an array of                point            ,linestring|multipoint,multilinestring|polygon, multipolygon      , geometry collection.
      *
-     * @return array{type: string, value: array<array<float|int>|float|int>, srid: int|null, dimension: string|null}
+     * @return array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]}
      */
     public function parse(?string $input = null): array
     {
@@ -70,7 +70,7 @@ class Parser
     /**
      * Match a number and optional exponent.
      */
-    protected function coordinate(): float|int
+    protected function coordinate(): string|int
     {
         $this->match($this->lexer->isNextToken(Lexer::T_FLOAT) ? Lexer::T_FLOAT : Lexer::T_INTEGER);
 
@@ -78,7 +78,7 @@ class Parser
     }
 
     /**
-     * @return array<float|int>
+     * @return array<string|int>
      */
     protected function coordinates(int $count): array
     {
@@ -93,9 +93,9 @@ class Parser
 
     /**
      * Match a spatial geometry object.
-     * return an array of point, linestring, multilinestring|polygon, multipolygon, etc.
+     * return an array of                point            ,linestring|multipoint,multilinestring|polygon, multipolygon      , geometry collection.
      *
-     * @return array{'type':string, 'value':array<int|float>|array<int|float>[]|array<int|float>[][]|array<int|float>[][][]}
+     * @return array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]}
      */
     protected function geometry(): array
     {
@@ -117,7 +117,7 @@ class Parser
             'MULTIPOLYGON' => $this->multiPolygon(),
             'POINT' => $this->point(),
             'POLYGON' => $this->polygon(),
-            // TODO Add all types!
+            // TODO Add all missing types!
             default => throw new NotYetImplementedException($type),
         };
 
@@ -132,7 +132,9 @@ class Parser
     /**
      * Match GEOMETRYCOLLECTION value.
      *
-     * @return array[]
+     * no recursive here, only one level of geometry collection.
+     *
+     * @return array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]
      */
     protected function geometryCollection(): array
     {
@@ -150,7 +152,7 @@ class Parser
     /**
      * Match LINESTRING value.
      *
-     * @return array<int|float>[]
+     * @return array<int|string>[]
      */
     protected function lineString(): array
     {
@@ -176,7 +178,7 @@ class Parser
     /**
      * Match MULTILINESTRING value.
      *
-     * @return array<int|float>[][]
+     * @return array<int|string>[][]
      */
     protected function multiLineString(): array
     {
@@ -186,7 +188,7 @@ class Parser
     /**
      * Match MULTIPOINT value.
      *
-     * @return array<int|float>[]
+     * @return array<int|string>[]
      */
     protected function multiPoint(): array
     {
@@ -196,7 +198,7 @@ class Parser
     /**
      * Match MULTIPOLYGON value.
      *
-     * @return array<int|float>[][][]
+     * @return array<int|string>[][][]
      */
     protected function multiPolygon(): array
     {
@@ -221,7 +223,7 @@ class Parser
     /**
      * Match a coordinate pair.
      *
-     * @return array<int|float>
+     * @return array<int|string>
      */
     protected function point(): array
     {
@@ -253,7 +255,7 @@ class Parser
     /**
      * Match a list of coordinates.
      *
-     * @return array<int|float>[]
+     * @return array<int|string>[]
      */
     protected function pointList(): array
     {
@@ -271,7 +273,7 @@ class Parser
     /**
      * Match nested lists of coordinates.
      *
-     * @return array<int|float>[][]
+     * @return array<int|string>[][]
      */
     protected function pointLists(): array
     {
@@ -296,7 +298,7 @@ class Parser
     /**
      * Match POLYGON value.
      *
-     * @return array<int|float>[][]
+     * @return array<int|string>[][]
      */
     protected function polygon(): array
     {
