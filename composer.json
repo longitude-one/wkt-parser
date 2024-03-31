@@ -26,8 +26,10 @@
     "require": {
         "php": "^8.1",
         "ext-ctype": "*",
-        "doctrine/lexer": "^3.0"
+        "doctrine/lexer": "^3.1"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require-dev": {
         "phpunit/phpunit": "^10.5"
     },
