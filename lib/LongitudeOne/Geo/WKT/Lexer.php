@@ -127,7 +127,7 @@ class Lexer extends AbstractLexer
             return self::T_FLOAT;
         }
 
-        if (ctype_alpha($value)) {
+        if (preg_match('/^[a-zA-Z]+$/', $value)) {
             $name = __CLASS__.'::T_'.strtoupper($value);
 
             if (defined($name) && is_int(constant($name))) {
