@@ -23,7 +23,8 @@ final class NotYetImplementedException extends \LogicException implements Except
 {
     public function __construct(string $message, int $code = 0, ?\Throwable $previous = null)
     {
-        $finalMessage = sprintf('The %s is not yet able to parse %s.',
+        $finalMessage = sprintf(
+            'The %s is not yet able to parse %s.',
             Parser::class,
             $message
         );
