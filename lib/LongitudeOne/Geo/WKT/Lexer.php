@@ -17,7 +17,7 @@ use Doctrine\Common\Lexer\AbstractLexer;
 /**
  * Convert spatial value to tokens.
  *
- * @extends AbstractLexer<int, int|float|string>
+ * @extends AbstractLexer<int, int|string>
  */
 class Lexer extends AbstractLexer
 {
@@ -55,41 +55,24 @@ class Lexer extends AbstractLexer
     public const T_Z = 502;
     public const T_ZM = 501;
 
-    /**
-     * @param string|int|float $input a query string
-     */
-    public function __construct($input = null)
+    public function __construct(?string $input = null)
     {
-        if (!is_null($input) && !is_string($input)) {
-            trigger_error(
-                'Since longitudeone/wkt-parser 2.1: Passing a float or an integer to LongitudeOne\WKT\String\Lexer::__construct() is deprecated. Use a string instead.',
-                E_USER_DEPRECATED
-            );
-        }
-
         if (null !== $input) {
             $this->setInput((string) $input);
         }
     }
 
-    /**
-     * @param ?string $input
-     */
-    public function setInput($input): void
+    public function value(): int|string
     {
-        if (!is_null($input) && !is_string($input)) {
-            trigger_error(
-                'Since longitudeone/wkt-parser 2.1: Passing a float or an integer to LongitudeOne\WKT\String\Lexer::setInput() is deprecated. Use a string instead.',
-                E_USER_DEPRECATED
-            );
+        if (is_int($this->token?->value)) {
+            return (int) $this->token->value;
         }
 
-        parent::setInput((string) $input);
-    }
+        if (is_numeric($this->token?->value)) {
+            return (string) ($this->token->value + 0);
+        }
 
-    public function value(): int|float|string
-    {
-        return $this->token?->value;
+        return $this->token?->value ?? '';
     }
 
     /**
@@ -123,6 +106,8 @@ class Lexer extends AbstractLexer
             if (is_int($value)) {
                 return self::T_INTEGER;
             }
+
+            $value = (string) $value;
 
             return self::T_FLOAT;
         }
