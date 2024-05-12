@@ -59,7 +59,7 @@ jobs:
               env:
                   CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
               with:
-                  coverageCommand: vendor/bin/phpunit --coverage-clover=.phpunit.cache/clover-${{ matrix.php-version }}.xml
+                  coverageCommand: vendor/bin/phpunit --coverage-clover=.phpunit.cache/clover-8.3.xml
                   coverageLocations: ${{github.workspace}}/.phpunit.cache/clover*.xml:clover
 
             - name: Run tests for forks
