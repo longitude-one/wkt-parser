@@ -9,6 +9,7 @@ Lexer and parser library for 2D, 3D, and 4D WKT/EWKT spatial object strings.
 [![PHP CI](https://github.com/longitude-one/wkt-parser/actions/workflows/ci.yml/badge.svg)](https://github.com/longitude-one/wkt-parser/actions/workflows/ci.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9f5fc3374175f36bb142/maintainability)](https://codeclimate.com/github/longitude-one/wkt-parser/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/9f5fc3374175f36bb142/test_coverage)](https://codeclimate.com/github/longitude-one/wkt-parser/test_coverage)
+[![Coverage Status](https://coveralls.io/repos/github/longitude-one/wkt-parser/badge.svg)](https://coveralls.io/github/longitude-one/wkt-parser)
 ![Minimum PHP Version](https://img.shields.io/packagist/php-v/longitude-one/wkt-parser.svg?maxAge=3600)
 
 
