@@ -12,7 +12,7 @@
 
 namespace LongitudeOne\Geo\WKT\Tests;
 
-use LongitudeOne\Geo\WKT\Exception\NotYetImplementedException;
+use LongitudeOne\Geo\WKT\Exception\NotInstantiableException;
 use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
 use LongitudeOne\Geo\WKT\Parser;
 use LongitudeOne\Geo\WKT\Tests\Utils\SpecificTestCase;
@@ -24,15 +24,22 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class ParserTest extends SpecificTestCase
 {
     /**
-     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
+     * @return \Generator<string, array{0: string, 1: ?int, 2: (int|string)[][], 3: ?string}, null, void>
      */
     public static function circularStringProvider(): \Generator
     {
         yield 'testCircularString' => ['CIRCULARSTRING(0 0, 1 1, 1 0)', null, [[0, 0], [1, 1], [1, 0]], null];
+        yield 'testCircularStringWithSrid' => ['SRID=4326;CIRCULARSTRING(0 0, 1 1, 1 0)', 4326, [[0, 0], [1, 1], [1, 0]], null];
+        yield 'testCircularStringWithZ' => ['CIRCULARSTRINGZ(0 0 0, 1 1 1, 1 0 -1)', null, [[0, 0, 0], [1, 1, 1], [1, 0, -1]], 'Z'];
+        yield 'testCircularStringWithZAndSrid' => ['SRID=4326;CIRCULARSTRINGZ(0 0 0, 1 1 1, 1 0 -1)', 4326, [[0, 0, 0], [1, 1, 1], [1, 0, -1]], 'Z'];
+        yield 'testCircularStringWithM' => ['CIRCULARSTRINGM(0 0 0, 1 1 1, 1 0 -1)', null, [[0, 0, 0], [1, 1, 1], [1, 0, -1]], 'M'];
+        yield 'testCircularStringWithMAndSrid' => ['SRID=4326;CIRCULARSTRINGM(0 0 0, 1 1 1, 1 0 -1)', 4326, [[0, 0, 0], [1, 1, 1], [1, 0, -1]], 'M'];
+        yield 'testCircularStringWithZM' => ['CIRCULARSTRINGZM(0 0 0 0, 1 1 1 1, 1 0 -1 0)', null, [[0, 0, 0, 0], [1, 1, 1, 1], [1, 0, -1, 0]], 'ZM'];
+        yield 'testCircularStringWithZMAndSrid' => ['SRID=4326;CIRCULARSTRINGZM(0 0 0 0, 1 1 1 1.2, 1 0 -1 0)', 4326, [[0, 0, 0, 0], [1, 1, 1, '1.2'], [1, 0, -1, 0]], 'ZM'];
     }
 
     /**
-     * @return \Generator{0:string, 1:int|null, 2:array<array<int|float>>, 3:string|null}
+     * @return \Generator<string, array{0:string, 1:int|null, 2: array{'type': string, value:(int|string|(int|string)[])[]}[], 3: ?string}, null, void>
      */
     public static function geometryCollectionProvider(): \Generator
     {
@@ -47,7 +54,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
+     * @return \Generator<string, array{0: string, 1: ?int, 2: (int|string)[][], 3: ?string}, null, void>
      */
     public static function lineStringProvider(): \Generator
     {
@@ -62,7 +69,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
+     * @return \Generator<string, array{0: string, 1: ?int, 2: (int|string)[][][], 3: ?string}, null, void>
      */
     public static function multiLineStringProvider(): \Generator
     {
@@ -77,7 +84,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
+     * @return \Generator<string, array{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}, null, void>
      */
     public static function multiPointProvider(): \Generator
     {
@@ -92,7 +99,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
+     * @return \Generator<string, array{0: string, 1: ?int, 2: (int|string)[][][][], 3: ?string}, null, void>
      */
     public static function multiPolygonProvider(): \Generator
     {
@@ -107,7 +114,18 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator{0: string, 1: ?int, 2: array<int|float>, 3: ?string}
+     * @return \Generator<string, array{0: string, 1:string}, null, void>
+     */
+    public static function notInstantiableTypesProvider(): \Generator
+    {
+        yield 'testNotInstantiableGeometry' => [Parser::GEOMETRY, 'According the ISO 13249-3:2016 standard, the "GEOMETRY" type is not instantiable. Did you mean "GEOMETRYCOLLECTION"?'];
+        yield 'testNotInstantiableCurve' => [Parser::CURVE, 'According the ISO 13249-3:2016 standard, the "CURVE" type is not instantiable. Did you mean "MULTICURVE"?'];
+        yield 'testNotInstantiableSolid' => [Parser::SOLID, 'According the ISO 13249-3:2016 standard, the "SOLID" type is not instantiable. Did you mean "POLYGON"?'];
+        yield 'testNotInstantiableSurface' => [Parser::SURFACE, 'According the ISO 13249-3:2016 standard, the "SURFACE" type is not instantiable. Did you mean "MULTISURFACE"?'];
+    }
+
+    /**
+     * @return \Generator<string, array{0: string, 1: ?int, 2: (int|string)[], 3: ?string}, null, void>
      */
     public static function pointProvider(): \Generator
     {
@@ -126,7 +144,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator{0: string, 1: ?int, 2: array<int|float>[], 3: ?string}
+     * @return \Generator<string, array{0: string, 1: ?int, 2: (int|float)[][][], 3: ?string}, null, void>
      */
     public static function polygonProvider(): \Generator
     {
@@ -143,7 +161,7 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
-     * @return \Generator{0: string, 1: string}
+     * @return \Generator<string, array{0: string, 1: string}, null, void>
      */
     public static function unexpectedValues(): \Generator
     {
@@ -176,11 +194,6 @@ class ParserTest extends SpecificTestCase
     public function testCircularString(string $value, ?int $srid, array $coordinates, ?string $dimension): void
     {
         $parser = new Parser($value);
-        self::expectException(NotYetImplementedException::class);
-        self::expectExceptionMessage('The LongitudeOne\Geo\WKT\Parser is not yet able to parse CIRCULARSTRING.');
-        $parser->parse();
-
-        // Remove the preceding lines and uncomment the following ones when Parser::circularString will be implemented
         $actual = $parser->parse();
         self::assertCircularStringParsed($srid, $coordinates, $dimension, $actual);
     }
@@ -243,6 +256,15 @@ class ParserTest extends SpecificTestCase
         $actual = $parser->parse();
 
         self::assertMultiPolygonParsed($srid, $coordinates, $dimension, $actual);
+    }
+
+    #[DataProvider('notInstantiableTypesProvider')]
+    public function testNotInstantiable(string $notInstantiableType, string $expectedMessage): void
+    {
+        self::expectException(NotInstantiableException::class);
+        self::expectExceptionMessage($expectedMessage);
+        $parser = new Parser();
+        $parser->parse($notInstantiableType.'(10 10)');
     }
 
     public function testNullParser(): void

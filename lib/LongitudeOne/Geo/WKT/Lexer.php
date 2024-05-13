@@ -21,15 +21,22 @@ use Doctrine\Common\Lexer\AbstractLexer;
  */
 class Lexer extends AbstractLexer
 {
+    public const T_BREPSOLID = 698;
+    public const T_CIRCLE = 697;
     public const T_CIRCULARSTRING = 608;
     public const T_CLOSE_PARENTHESIS = 6;
+    public const T_CLOTHOID = 696;
     public const T_COMMA = 8;
     public const T_COMPOUNDCURVE = 609;
+    public const T_COMPOUNDSURFACE = 695;
     public const T_CURVE = 613;
     public const T_CURVEPOLYGON = 610;
     public const T_DOT = 10;
+    public const T_ELLIPTICALCURVE = 694;
     public const T_EQUALS = 11;
     public const T_FLOAT = 5;
+    public const T_GEODESICSTRING = 693;
+    public const T_GEOMETRY = 690;
     public const T_GEOMETRYCOLLECTION = 607;
     public const T_INTEGER = 2;
     public const T_LINESTRING = 602;
@@ -41,11 +48,14 @@ class Lexer extends AbstractLexer
     public const T_MULTIPOLYGON = 606;
     public const T_MULTISURFACE = 612;
     public const T_NONE = 1;
+    public const T_NURBSCURVE = 692;
     public const T_OPEN_PARENTHESIS = 7;
     public const T_POINT = 601;
     public const T_POLYGON = 603;
-    public const T_POLYHEDRALSURFACE = 615;
+    public const T_POLYHDRLSURFACE = 615;
     public const T_SEMICOLON = 50;
+    public const T_SOLID = 699;
+    public const T_SPIRALCURVE = 691;
     public const T_SRID = 500;
     public const T_STRING = 3;
     public const T_SURFACE = 614;

@@ -12,18 +12,15 @@
 
 namespace LongitudeOne\Geo\WKT\Exception;
 
-use LongitudeOne\Geo\WKT\Parser;
-
 /**
  * Not yet implemented exception.
  */
-final class NotYetImplementedException extends \LogicException implements ExceptionInterface
+final class NotExistentException extends \LogicException implements ExceptionInterface
 {
     public function __construct(string $message, int $code = 0, ?\Throwable $previous = null)
     {
         $finalMessage = sprintf(
-            'The %s is not yet able to parse "%s".',
-            Parser::class,
+            'According the ISO 13249-3:2016 standard, the "%s" type does not exist.',
             $message
         );
 
