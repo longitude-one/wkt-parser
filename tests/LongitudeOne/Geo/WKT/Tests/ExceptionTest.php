@@ -60,7 +60,7 @@ class ExceptionTest extends TestCase
         $this->expectException(NotExistentException::class);
         $this->expectExceptionMessage('According the ISO 13249-3:2016 standard, the "FOO" type does not exist.');
 
-        throw new NotExistentException('FOO');
+        (new Parser('FOO(42 42)'))->parse();
     }
 
     #[DataProvider('notInstantiableTypes')]
@@ -83,13 +83,5 @@ class ExceptionTest extends TestCase
         $toParse = sprintf('%s(42 42)', $notYetImplemented);
 
         (new Parser($toParse))->parse();
-    }
-
-    public function testUnExpectedValue(): void
-    {
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('[Syntax Error] line 0, col 0: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_TYPE, got "FOO" in value "FOO(42 42)"');
-
-        (new Parser('FOO(42 42)'))->parse();
     }
 }

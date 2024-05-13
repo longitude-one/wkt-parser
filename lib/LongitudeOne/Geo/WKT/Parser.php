@@ -142,7 +142,11 @@ class Parser
      */
     protected function geometry(): array
     {
-        $type = $this->type();
+        try {
+            $type = $this->type();
+        }catch (UnexpectedValueException) {
+            throw new NotExistentException($this->lexer->lookahead->value);
+        }
 
         if ($this->lexer->isNextTokenAny([Lexer::T_Z, Lexer::T_M, Lexer::T_ZM])) {
             $this->match($this->lexer->lookahead->type);
@@ -230,6 +234,8 @@ class Parser
 
     /**
      * Match token at current position in input.
+     *
+     * @throw UnexpectedValueException
      */
     protected function match(int $token): void
     {
