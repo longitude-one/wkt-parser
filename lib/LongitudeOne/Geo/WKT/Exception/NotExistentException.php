@@ -16,8 +16,6 @@ use LongitudeOne\Geo\WKT\Parser;
 
 /**
  * Not yet implemented exception.
- *
- * @internal
  */
 final class NotExistentException extends \LogicException implements ExceptionInterface
 {

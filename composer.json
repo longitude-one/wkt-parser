@@ -34,11 +34,7 @@
     },
     "autoload": {
         "psr-0": {
-            "LongitudeOne\\Geo\\WKT": "lib/"
-        }
-    },
-    "autoload-dev": {
-        "psr-0": {
+            "LongitudeOne\\Geo\\WKT": "lib/",
             "LongitudeOne\\Geo\\WKT\\Tests": "tests/"
         }
     }

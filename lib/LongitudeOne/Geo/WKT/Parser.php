@@ -50,6 +50,7 @@ class Parser
     public const SOLID = 'SOLID';
     public const SPIRAL_CURVE = 'SPIRALCURVE';
     public const SURFACE = 'SURFACE';
+    public const TIN = 'TIN';
     public const TRIANGLE = 'TRIANGLE';
 
     private ?string $dimension = null;
@@ -161,18 +162,21 @@ class Parser
             self::POINT => $this->point(),
             self::POLYGON => $this->polygon(),
 
-            self::BREP_SOLID,
-            self::CIRCLE,
-            self::CLOTHOID,
-            self::COMPOUND_CURVE,
-            self::COMPOUND_SURFACE,
-            self::CURVE_POLYGON,
-            self::ELLIPTICAL_CURVE,
-            self::GEODESIC_STRING,
-            self::MULTI_CURVE,
-            self::NURBS_CURVE,
-            self::SPIRAL_CURVE,
-            self::POLYHEDRAL_SURFACE,
+            // Not implemented types in longitude-one/geo-parser
+            self::BREP_SOLID, // Not implemented in PostGis, nor in MySQL
+            self::CIRCLE, // Not implemented in PostGis, nor in MySQL
+            self::CLOTHOID, // Not implemented in PostGis, nor in MySQL
+            self::COMPOUND_CURVE, // Not implemented in PostGis, nor in MySQL
+            self::COMPOUND_SURFACE, // Not implemented in PostGis, nor in MySQL
+            self::CURVE_POLYGON, // Implemented in PostGis, but in MySQL
+            self::ELLIPTICAL_CURVE, // Not implemented in PostGis, nor in MySQL
+            self::GEODESIC_STRING, // Not implemented in PostGis, nor in MySQL
+            self::MULTI_CURVE, // Implemented in PostGis and in MySQL
+            self::MULTI_SURFACE, // Implemented in PostGis and in MySQL
+            self::NURBS_CURVE, // Not implemented in PostGis, nor in MySQL
+            self::SPIRAL_CURVE, // Not implemented in PostGis, nor in MySQL
+            self::POLYHEDRAL_SURFACE, // Implemented in PostGis, but in MySQL
+            self::TIN,
             self::TRIANGLE => throw new NotYetImplementedException($type),
 
             // @see ISO13249-3 Chapter 4.2 §2 page 11

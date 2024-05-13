@@ -17,8 +17,6 @@ use LongitudeOne\Geo\WKT\Parser;
 /**
  * Not yet implemented exception.
  *
- * @internal
- *
  * @param ('GEOMETRY'|'CURVE'|'SOLID'|'SURFACE') $message the message to display
  */
 final class NotInstantiableException extends \LogicException implements ExceptionInterface
