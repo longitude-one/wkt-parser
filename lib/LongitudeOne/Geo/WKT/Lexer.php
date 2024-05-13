@@ -30,6 +30,7 @@ class Lexer extends AbstractLexer
     public const T_DOT = 10;
     public const T_EQUALS = 11;
     public const T_FLOAT = 5;
+    public const T_GEOMETRY = 690;
     public const T_GEOMETRYCOLLECTION = 607;
     public const T_INTEGER = 2;
     public const T_LINESTRING = 602;
@@ -46,6 +47,7 @@ class Lexer extends AbstractLexer
     public const T_POLYGON = 603;
     public const T_POLYHEDRALSURFACE = 615;
     public const T_SEMICOLON = 50;
+    public const T_SOLID = 699;
     public const T_SRID = 500;
     public const T_STRING = 3;
     public const T_SURFACE = 614;

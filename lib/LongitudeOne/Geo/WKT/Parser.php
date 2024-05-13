@@ -12,14 +12,46 @@
 
 namespace LongitudeOne\Geo\WKT;
 
+use LongitudeOne\Geo\WKT\Exception\NotExistentException;
+use LongitudeOne\Geo\WKT\Exception\NotInstantiableException;
 use LongitudeOne\Geo\WKT\Exception\NotYetImplementedException;
 use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
 
 /**
  * Parse WKT/EWKT spatial object strings.
+ *
+ * @see ISO13249 Chapter 4.2
+ * @see https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry
  */
 class Parser
 {
+    public const BREP_SOLID = 'BREPSOLID';
+    public const CIRCLE = 'CIRCLE';
+    public const CIRCULAR_STRING = 'CIRCULARSTRING';
+    public const CLOTHOID = 'CLOTHOID';
+    public const COMPOUND_CURVE = 'COMPOUNDCURVE';
+    public const COMPOUND_SURFACE = 'COMPOUNDSURFACE';
+    public const CURVE = 'CURVE';
+    public const CURVE_POLYGON = 'CURVEPOLYGON';
+    public const ELLIPTICAL_CURVE = 'ELLIPTICALCURVE';
+    public const GEODESIC_STRING = 'GEODESICSTRING';
+    public const GEOMETRY = 'GEOMETRY';
+    public const GEOMETRY_COLLECTION = 'GEOMETRYCOLLECTION';
+    public const LINE_STRING = 'LINESTRING';
+    public const MULTI_CURVE = 'MULTICURVE';
+    public const MULTI_LINE_STRING = 'MULTILINESTRING';
+    public const MULTI_POINT = 'MULTIPOINT';
+    public const MULTI_POLYGON = 'MULTIPOLYGON';
+    public const MULTI_SURFACE = 'MULTISURFACE';
+    public const NURBS_CURVE = 'NURBSCURVE';
+    public const POINT = 'POINT';
+    public const POLYGON = 'POLYGON';
+    public const POLYHEDRAL_SURFACE = 'POLYHDRLSURFACE';
+    public const SOLID = 'SOLID';
+    public const SPIRAL_CURVE = 'SPIRALCURVE';
+    public const SURFACE = 'SURFACE';
+    public const TRIANGLE = 'TRIANGLE';
+
     private ?string $dimension = null;
     private ?string $input = null;
     private Lexer $lexer;
@@ -68,6 +100,16 @@ class Parser
     }
 
     /**
+     * Match CIRCULARSTRING value.
+     *
+     * @return (int|string)[][]
+     */
+    protected function circularString(): array
+    {
+        return $this->pointList();
+    }
+
+    /**
      * Match a number and optional exponent.
      */
     protected function coordinate(): string|int
@@ -110,15 +152,38 @@ class Parser
         $this->match(Lexer::T_OPEN_PARENTHESIS);
 
         $value = match ($type) {
-            'GEOMETRYCOLLECTION' => $this->geometryCollection(),
-            'LINESTRING' => $this->lineString(),
-            'MULTILINESTRING' => $this->multiLineString(),
-            'MULTIPOINT' => $this->multiPoint(),
-            'MULTIPOLYGON' => $this->multiPolygon(),
-            'POINT' => $this->point(),
-            'POLYGON' => $this->polygon(),
-            // TODO Add all missing types!
-            default => throw new NotYetImplementedException($type),
+            self::CIRCULAR_STRING => $this->circularString(),
+            self::GEOMETRY_COLLECTION => $this->geometryCollection(),
+            self::LINE_STRING => $this->lineString(),
+            self::MULTI_LINE_STRING => $this->multiLineString(),
+            self::MULTI_POINT => $this->multiPoint(),
+            self::MULTI_POLYGON => $this->multiPolygon(),
+            self::POINT => $this->point(),
+            self::POLYGON => $this->polygon(),
+
+            self::BREP_SOLID,
+            self::CIRCLE,
+            self::CLOTHOID,
+            self::COMPOUND_CURVE,
+            self::COMPOUND_SURFACE,
+            self::CURVE_POLYGON,
+            self::ELLIPTICAL_CURVE,
+            self::GEODESIC_STRING,
+            self::MULTI_CURVE,
+            self::NURBS_CURVE,
+            self::SPIRAL_CURVE,
+            self::POLYHEDRAL_SURFACE,
+            self::TRIANGLE => throw new NotYetImplementedException($type),
+
+            // @see ISO13249-3 Chapter 4.2 §2 page 11
+            // Curve, geometry, solid and surface aren't instantiable!
+            self::CURVE,
+            self::GEOMETRY,
+            self::SOLID,
+            self::SURFACE => throw new NotInstantiableException($type),
+
+            // This should never happen, because Lexer will throw an UnexpectedValueException
+            default => throw new NotExistentException($type),
         };
 
         $this->match(Lexer::T_CLOSE_PARENTHESIS);
@@ -255,7 +320,7 @@ class Parser
     /**
      * Match a list of coordinates.
      *
-     * @return array<int|string>[]
+     * @return (int|string)[][]
      */
     protected function pointList(): array
     {

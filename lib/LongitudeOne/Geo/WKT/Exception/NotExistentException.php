@@ -19,12 +19,12 @@ use LongitudeOne\Geo\WKT\Parser;
  *
  * @internal
  */
-final class NotYetImplementedException extends \LogicException implements ExceptionInterface
+final class NotExistentException extends \LogicException implements ExceptionInterface
 {
     public function __construct(string $message, int $code = 0, ?\Throwable $previous = null)
     {
         $finalMessage = sprintf(
-            'The %s is not yet able to parse "%s".',
+            '%s: The "%s" type does not exist.',
             Parser::class,
             $message
         );
