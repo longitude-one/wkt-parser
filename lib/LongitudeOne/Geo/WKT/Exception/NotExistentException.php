@@ -12,8 +12,6 @@
 
 namespace LongitudeOne\Geo\WKT\Exception;
 
-use LongitudeOne\Geo\WKT\Parser;
-
 /**
  * Not yet implemented exception.
  */
@@ -22,8 +20,7 @@ final class NotExistentException extends \LogicException implements ExceptionInt
     public function __construct(string $message, int $code = 0, ?\Throwable $previous = null)
     {
         $finalMessage = sprintf(
-            '%s: The "%s" type does not exist.',
-            Parser::class,
+            'According the ISO 13249-3:2016 standard, the "%s" type does not exist.',
             $message
         );
 

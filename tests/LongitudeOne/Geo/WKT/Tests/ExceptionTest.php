@@ -12,6 +12,7 @@
 
 namespace LongitudeOne\Geo\WKT\Tests;
 
+use LongitudeOne\Geo\WKT\Exception\NotExistentException;
 use LongitudeOne\Geo\WKT\Exception\NotInstantiableException;
 use LongitudeOne\Geo\WKT\Exception\NotYetImplementedException;
 use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
@@ -52,6 +53,14 @@ class ExceptionTest extends TestCase
         yield Parser::POLYHEDRAL_SURFACE => [Parser::POLYHEDRAL_SURFACE, 'The LongitudeOne\Geo\WKT\Parser is not yet able to parse "POLYHDRLSURFACE".'];
         yield Parser::TRIANGLE => [Parser::TRIANGLE, 'The LongitudeOne\Geo\WKT\Parser is not yet able to parse "TRIANGLE".'];
         yield Parser::TIN => [Parser::TIN, 'The LongitudeOne\Geo\WKT\Parser is not yet able to parse "TIN".'];
+    }
+
+    public function testNotExistentException(): void
+    {
+        $this->expectException(NotExistentException::class);
+        $this->expectExceptionMessage('According the ISO 13249-3:2016 standard, the "FOO" type does not exist.');
+
+        throw new NotExistentException('FOO');
     }
 
     #[DataProvider('notInstantiableTypes')]
