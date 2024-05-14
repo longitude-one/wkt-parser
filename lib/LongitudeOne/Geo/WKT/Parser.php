@@ -144,8 +144,8 @@ class Parser
     {
         try {
             $type = $this->type();
-        }catch (UnexpectedValueException) {
-            throw new NotExistentException($this->lexer->lookahead->value);
+        } catch (UnexpectedValueException $e) {
+            throw new NotExistentException((string) $this->lexer->lookahead?->value, $e->getCode(), $e);
         }
 
         if ($this->lexer->isNextTokenAny([Lexer::T_Z, Lexer::T_M, Lexer::T_ZM])) {
