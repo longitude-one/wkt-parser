@@ -15,7 +15,6 @@ namespace LongitudeOne\Geo\WKT\Tests;
 use LongitudeOne\Geo\WKT\Exception\NotExistentException;
 use LongitudeOne\Geo\WKT\Exception\NotInstantiableException;
 use LongitudeOne\Geo\WKT\Exception\NotYetImplementedException;
-use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
 use LongitudeOne\Geo\WKT\Parser;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
