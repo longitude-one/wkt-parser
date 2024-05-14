@@ -12,6 +12,7 @@
 
 namespace LongitudeOne\Geo\WKT\Tests;
 
+use LongitudeOne\Geo\WKT\Exception\NotExistentException;
 use LongitudeOne\Geo\WKT\Exception\NotInstantiableException;
 use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
 use LongitudeOne\Geo\WKT\Parser;
@@ -114,6 +115,16 @@ class ParserTest extends SpecificTestCase
     }
 
     /**
+     * @return \Generator<string, array{0: string, 1: string}, null, void>
+     */
+    public static function notExistentValuesProvider(): \Generator
+    {
+        yield 'testParsingGarbage' => ['@#_$%', 'According the ISO 13249-3:2016 standard, the "@" type does not exist.'];
+        yield 'testParsingBadType' => ['PNT(10 10)', 'According the ISO 13249-3:2016 standard, the "PNT" type does not exist.'];
+        yield 'testParsingGeometryCollectionValueWithBadType' => ['GEOMETRYCOLLECTION(PNT(10 10), POINT(30 30), LINESTRING(15 15, 20 20))', 'According the ISO 13249-3:2016 standard, the "PNT" type does not exist.'];
+    }
+
+    /**
      * @return \Generator<string, array{0: string, 1:string}, null, void>
      */
     public static function notInstantiableTypesProvider(): \Generator
@@ -165,8 +176,6 @@ class ParserTest extends SpecificTestCase
      */
     public static function unexpectedValues(): \Generator
     {
-        yield 'testParsingGarbage' => ['@#_$%', '[Syntax Error] line 0, col 0: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_TYPE, got "@" in value "@#_$%"'];
-        yield 'testParsingBadType' => ['PNT(10 10)', '[Syntax Error] line 0, col 0: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_TYPE, got "PNT" in value "PNT(10 10)"'];
         yield 'testParsingPointValueWithBadSrid' => ['SRID=432.6;POINT(34.23 -87)', '[Syntax Error] line 0, col 5: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got "432.6" in value "SRID=432.6;POINT(34.23 -87)"'];
         yield 'testParsingPointValueMissingCoordinate' => ['POINT(34.23)', '[Syntax Error] line 0, col 11: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got ")" in value "POINT(34.23)"'];
         yield 'testParsingPointMValueMissingCoordinate' => ['POINTM(34.23 10)', '[Syntax Error] line 0, col 15: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_INTEGER, got ")" in value "POINTM(34.23 10)"'];
@@ -183,7 +192,6 @@ class ParserTest extends SpecificTestCase
         yield 'testParsingPolygonValueMultiRingMissingComma' => ['POLYGON((0 0,10 0,10 10,0 10,0 0)(5 5,7 5,7 7,5 7,5 5))', '[Syntax Error] line 0, col 33: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "(" in value "POLYGON((0 0,10 0,10 10,0 10,0 0)(5 5,7 5,7 7,5 7,5 5))"'];
         yield 'testParsingMultiLineStringValueMissingComma' => ['MULTILINESTRING((0 0,10 0,10 10,0 10)(5 5,7 5,7 7,5 7))', '[Syntax Error] line 0, col 37: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "(" in value "MULTILINESTRING((0 0,10 0,10 10,0 10)(5 5,7 5,7 7,5 7))"'];
         yield 'testParsingMultiPolygonValueMissingParenthesis' => ['MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7,5 5)),(1 1, 3 1, 3 3, 1 3, 1 1))', '[Syntax Error] line 0, col 64: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_OPEN_PARENTHESIS, got "1" in value "MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7,5 5)),(1 1, 3 1, 3 3, 1 3, 1 1))"'];
-        yield 'testParsingGeometryCollectionValueWithBadType' => ['GEOMETRYCOLLECTION(PNT(10 10), POINT(30 30), LINESTRING(15 15, 20 20))', '[Syntax Error] line 0, col 19: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_TYPE, got "PNT" in value "GEOMETRYCOLLECTION(PNT(10 10), POINT(30 30), LINESTRING(15 15, 20 20))"'];
         yield 'testParsingGeometryCollectionValueWithMismatchedDimension' => ['GEOMETRYCOLLECTION(POINT(10 10), POINT(30 30 10), LINESTRING(15 15, 20 20))', '[Syntax Error] line 0, col 45: Error: Expected LongitudeOne\Geo\WKT\Lexer::T_CLOSE_PARENTHESIS, got "10" in value "GEOMETRYCOLLECTION(POINT(10 10), POINT(30 30 10), LINESTRING(15 15, 20 20))"'];
     }
 
@@ -283,6 +291,15 @@ class ParserTest extends SpecificTestCase
         self::expectException(UnexpectedValueException::class);
         self::expectExceptionMessage($exceptionMessage);
 
+        $parser->parse();
+    }
+
+    #[DataProvider('notExistentValuesProvider')]
+    public function testParsingGarbage(string $garbage, string $message): void
+    {
+        $parser = new Parser($garbage);
+        self::expectException(NotExistentException::class);
+        self::expectExceptionMessage($message);
         $parser->parse();
     }
 
