@@ -4,23 +4,3 @@ parameters:
 			message: "#^Method LongitudeOne\\\\Geo\\\\WKT\\\\Parser\\:\\:geometryCollection\\(\\) should return array\\<array\\{type\\: string, value\\: array\\<array\\<array\\<array\\<int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\}\\> but returns non\\-empty\\-array\\<int\\<0, max\\>, array\\{type\\: string, value\\: array\\<array\\<array\\<array\\<array\\<array\\<int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\}\\>\\.$#"
 			count: 1
 			path: ../../lib/LongitudeOne/Geo/WKT/Parser.php
-
-		-
-			message: "#^Method LongitudeOne\\\\Geo\\\\WKT\\\\Parser\\:\\:srid\\(\\) should return int but returns int\\|string\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/Geo/WKT/Parser.php
-
-		-
-			message: "#^Method LongitudeOne\\\\Geo\\\\WKT\\\\Parser\\:\\:type\\(\\) should return string but returns int\\|string\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/Geo/WKT/Parser.php
-
-		-
-			message: "#^Parameter \\#1 \\$token of method LongitudeOne\\\\Geo\\\\WKT\\\\Parser\\:\\:match\\(\\) expects int, int\\|null given\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/Geo/WKT/Parser.php
-
-		-
-			message: "#^Property LongitudeOne\\\\Geo\\\\WKT\\\\Parser\\:\\:\\$dimension \\(string\\|null\\) does not accept int\\|string\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/Geo/WKT/Parser.php

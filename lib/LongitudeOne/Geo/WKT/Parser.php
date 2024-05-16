@@ -149,8 +149,9 @@ class Parser
         }
 
         if ($this->lexer->isNextTokenAny([Lexer::T_Z, Lexer::T_M, Lexer::T_ZM])) {
+            /* @phpstan-ignore-next-line TOKEN is T_Z, T_M, or T_ZM so type is set */
             $this->match($this->lexer->lookahead->type);
-            // TOKEN is T_Z, T_M, or T_ZM, so dimension is a string 'Z', 'M' or 'ZM'
+            /* @phpstan-ignore-next-line TOKEN is T_Z, T_M, or T_ZM, so value is returning a string: 'Z', 'M' or 'ZM' */
             $this->dimension = $this->lexer->value();
         }
 
@@ -389,6 +390,7 @@ class Parser
         $this->match(Lexer::T_EQUALS);
         $this->match(Lexer::T_INTEGER);
 
+        /** @var int $srid because we just match a Lexer::T_INTEGER */
         $srid = $this->lexer->value();
 
         $this->match(Lexer::T_SEMICOLON);
@@ -409,11 +411,11 @@ class Parser
         $this->match(Lexer::T_CLOSE_PARENTHESIS);
 
         if (4 !== count($pointList)) {
-            throw new UnexpectedValueException('Triangle must have 4 points');
+            throw new UnexpectedValueException(sprintf('According to the ISO-13249 specification, a triangle is a closed ring with fourth points, you provided %d.', count($pointList)));
         }
 
         if ($pointList[0] !== $pointList[3]) {
-            throw new UnexpectedValueException('Triangle is a ring, it must have the same first and last point');
+            throw new UnexpectedValueException(sprintf('According to the ISO-13249 specification, a triangle is a closed ring with fourth points. Your first point is "%s", the fourth is "%s"', implode(' ', $pointList[0]), implode(' ', $pointList[3])));
         }
 
         return $pointList;
@@ -426,7 +428,7 @@ class Parser
     {
         $this->match(Lexer::T_TYPE);
 
-        return $this->lexer->value();
+        return (string) $this->lexer->value();
     }
 
     /**
