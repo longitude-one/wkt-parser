@@ -165,23 +165,23 @@ class Parser
             self::MULTI_POLYGON => $this->multiPolygon(),
             self::POINT => $this->point(),
             self::POLYGON => $this->polygon(),
+            self::TRIANGLE => $this->triangle(), // PostGis ✅, MySQL ❌
 
-            // Not implemented types in longitude-one/geo-parser
-            self::BREP_SOLID, // Not implemented in PostGis, nor in MySQL
-            self::CIRCLE, // Not implemented in PostGis, nor in MySQL
-            self::CLOTHOID, // Not implemented in PostGis, nor in MySQL
-            self::COMPOUND_CURVE, // Not implemented in PostGis, nor in MySQL
-            self::COMPOUND_SURFACE, // Not implemented in PostGis, nor in MySQL
-            self::CURVE_POLYGON, // Implemented in PostGis, but in MySQL
-            self::ELLIPTICAL_CURVE, // Not implemented in PostGis, nor in MySQL
-            self::GEODESIC_STRING, // Not implemented in PostGis, nor in MySQL
-            self::MULTI_CURVE, // Implemented in PostGis and in MySQL
-            self::MULTI_SURFACE, // Implemented in PostGis and in MySQL
-            self::NURBS_CURVE, // Not implemented in PostGis, nor in MySQL
-            self::SPIRAL_CURVE, // Not implemented in PostGis, nor in MySQL
-            self::POLYHEDRAL_SURFACE, // Implemented in PostGis, but in MySQL
-            self::TIN,
-            self::TRIANGLE => throw new NotYetImplementedException($type),
+            // ❌ Not implemented types in longitude-one/geo-parser
+            self::BREP_SOLID, // PostGis ❌, MySQL ❌
+            self::CIRCLE, // PostGis ❌, MySQL ❌
+            self::CLOTHOID, // PostGis ❌, MySQL ❌
+            self::COMPOUND_CURVE, // PostGis ❌, MySQL ❌
+            self::COMPOUND_SURFACE, // PostGis ❌, MySQL ❌
+            self::CURVE_POLYGON, // PostGis ✅, MySQL ❌
+            self::ELLIPTICAL_CURVE, // PostGis ❌, MySQL ❌
+            self::GEODESIC_STRING, // PostGis ❌, MySQL ❌
+            self::MULTI_CURVE, // PostGis ✅, MySQL ✅
+            self::MULTI_SURFACE, // PostGis ✅, MySQL ✅
+            self::NURBS_CURVE, // PostGis ❌, MySQL ❌
+            self::SPIRAL_CURVE, // PostGis ❌, MySQL ❌
+            self::POLYHEDRAL_SURFACE, // PostGis ✅, MySQL ❌
+            self::TIN, => throw new NotYetImplementedException($type), // PostGis ✅, MySQL ❌
 
             // @see ISO13249-3 Chapter 4.2 §2 page 11
             // Curve, geometry, solid and surface aren't instantiable!
@@ -394,6 +394,29 @@ class Parser
         $this->match(Lexer::T_SEMICOLON);
 
         return $srid;
+    }
+
+    /**
+     * Match TRIANGLE value.
+     *
+     * @return (int|string)[][]
+     */
+    protected function triangle(): array
+    {
+        // TRIANGLE ((0 0, 0 9, 9 0, 0 0))
+        $this->match(Lexer::T_OPEN_PARENTHESIS);
+        $pointList = $this->pointList();
+        $this->match(Lexer::T_CLOSE_PARENTHESIS);
+
+        if (4 !== count($pointList)) {
+            throw new UnexpectedValueException('Triangle must have 4 points');
+        }
+
+        if ($pointList[0] !== $pointList[3]) {
+            throw new UnexpectedValueException('Triangle is a ring, it must have the same first and last point');
+        }
+
+        return $pointList;
     }
 
     /**

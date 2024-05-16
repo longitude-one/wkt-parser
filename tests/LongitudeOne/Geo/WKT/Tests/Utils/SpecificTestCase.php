@@ -17,11 +17,8 @@ use PHPUnit\Framework\TestCase;
 class SpecificTestCase extends TestCase
 {
     /**
-     * Value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection.
-     *
-     * @param array<float|int>[]                                                                                                                                                                                                                 $expectedCoordinates
-     *                                                                                                                                                                                                                                                                value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection
-     * @param array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]} $actual
+     * @param (int|string)[][]                                                            $expectedCoordinates
+     * @param array{type:string, value: (int|string)[][], srid: ?int, dimension: ?string} $actual
      */
     protected static function assertCircularStringParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -29,11 +26,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * Value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection.
-     *
-     * @param array<array<int|float>>                                                                                                                                                                                                            $expectedCoordinates
-     *                                                                                                                                                                                                                                                                value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection
-     * @param array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]} $actual
+     * @param array<array{'type': string, value:(int|string)[]|(int|string)[][]}>                                                            $expectedCoordinates
+     * @param array{type:string, value: array<array{'type': string, value:(int|string)[]|(int|string)[][]}>, srid: ?int, dimension: ?string} $actual
      */
     protected static function assertGeometryCollectionParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -41,23 +35,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * Value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection.
-     *
-     * @param array<array<int|float>>                                                                                                                                                                                                            $expectedCoordinates
-     *                                                                                                                                                                                                                                                                value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection
-     * @param array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]} $actual
-     */
-    protected static function assertGeometryParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
-    {
-        self::assertParsed($expectedSrid, 'GEOMETRY', $expectedCoordinates, $expectedDimension, $actual, $message);
-    }
-
-    /**
-     * Value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection.
-     *
-     * @param array<float|int>[]                                                                                                                                                                                                                 $expectedCoordinates
-     *                                                                                                                                                                                                                                                                value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection
-     * @param array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]} $actual
+     * @param (int|string)[][]                                                            $expectedCoordinates
+     * @param array{type:string, value: (int|string)[][], srid: ?int, dimension: ?string} $actual
      */
     protected static function assertLineStringParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -65,11 +44,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * Value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection.
-     *
-     * @param array<float|int>[]                                                                                                                                                                                                                 $expectedCoordinates
-     *                                                                                                                                                                                                                                                                value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection
-     * @param array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]} $actual
+     * @param (int|string)[][][]                                                            $expectedCoordinates
+     * @param array{type:string, value: (int|string)[][][], srid: ?int, dimension: ?string} $actual
      */
     protected static function assertMultiLineStringParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -77,11 +53,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * Value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection.
-     *
-     * @param array<float|int>[]                                                                                                                                                                                                                 $expectedCoordinates
-     *                                                                                                                                                                                                                                                                value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection
-     * @param array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]} $actual
+     * @param (int|string)[][]                                                            $expectedCoordinates
+     * @param array{type:string, value: (int|string)[][], srid: ?int, dimension: ?string} $actual
      */
     protected static function assertMultiPointParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -89,11 +62,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * Value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection.
-     *
-     * @param array<float|int>[]                                                                                                                                                                                                                 $expectedCoordinates
-     *                                                                                                                                                                                                                                                                value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection
-     * @param array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]} $actual
+     * @param (int|string)[][][][]                                                            $expectedCoordinates
+     * @param array{type:string, value: (int|string)[][][][], srid: ?int, dimension: ?string} $actual
      */
     protected static function assertMultiPolygonParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -101,11 +71,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * Value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection.
-     *
-     * @param array<float|int>                                                                                                                                                                                                                   $expectedCoordinates
-     *                                                                                                                                                                                                                                                                value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection
-     * @param array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]} $actual
+     * @param (int|string)[]                                                            $expectedCoordinates
+     * @param array{type:string, value: (int|string)[], srid: ?int, dimension: ?string} $actual
      */
     protected static function assertPointParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -113,11 +80,8 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * Value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection.
-     *
-     * @param array<float|int>[]                                                                                                                                                                                                                 $expectedCoordinates
-     *                                                                                                                                                                                                                                                                value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection
-     * @param array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]} $actual
+     * @param (int|string)[][][]                                                            $expectedCoordinates
+     * @param array{type:string, value: (int|string)[][][], srid: ?int, dimension: ?string} $actual
      */
     protected static function assertPolygonParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {
@@ -125,11 +89,17 @@ class SpecificTestCase extends TestCase
     }
 
     /**
-     * Value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection.
-     *
-     * @param array<float|int|array<int|float>>                                                                                                                                                                                                  $expectedCoordinates
-     *                                                                                                                                                                                                                                                                value is an array of             points           , linestring|multipoint, multilinestring|polygon, multipolygon            , geometry collection
-     * @param array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]} $actual
+     * @param (int|string)[][]                                                            $expectedCoordinates
+     * @param array{type:string, value: (int|string)[][], srid: ?int, dimension: ?string} $actual
+     */
+    protected static function assertTriangleParsed(?int $expectedSrid, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
+    {
+        self::assertParsed($expectedSrid, 'TRIANGLE', $expectedCoordinates, $expectedDimension, $actual, $message);
+    }
+
+    /**
+     * @param (int|string)[]|(int|string)[][]|(int|string)[][][]|(int|string)[][][][]                                                            $expectedCoordinates
+     * @param array{type:string, value: (int|string)[]|(int|string)[][]|(int|string)[][][]|(int|string)[][][][], srid: ?int, dimension: ?string} $actual
      */
     private static function assertParsed(?int $expectedSrid, string $type, array $expectedCoordinates, ?string $expectedDimension, array $actual, string $message = ''): void
     {

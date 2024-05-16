@@ -24,8 +24,3 @@ parameters:
 			message: "#^Property LongitudeOne\\\\Geo\\\\WKT\\\\Parser\\:\\:\\$dimension \\(string\\|null\\) does not accept int\\|string\\.$#"
 			count: 1
 			path: ../../lib/LongitudeOne/Geo/WKT/Parser.php
-
-		-
-			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) with arguments array\\{type\\: string, value\\: array\\<array\\<float\\|int\\>\\|float\\|int\\>, srid\\: int\\|null, dimension\\: string\\|null\\}, array\\{type\\: string, value\\: array\\<array\\<array\\<array\\<array\\<array\\<int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\} and string will always evaluate to false\\.$#"
-			count: 1
-			path: ../../tests/LongitudeOne/Geo/WKT/Tests/Utils/SpecificTestCase.php

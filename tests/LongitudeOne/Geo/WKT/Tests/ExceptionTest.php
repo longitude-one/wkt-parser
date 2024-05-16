@@ -50,7 +50,6 @@ class ExceptionTest extends TestCase
         yield Parser::NURBS_CURVE => [Parser::NURBS_CURVE, 'The LongitudeOne\Geo\WKT\Parser is not yet able to parse "NURBSCURVE".'];
         yield Parser::SPIRAL_CURVE => [Parser::SPIRAL_CURVE, 'The LongitudeOne\Geo\WKT\Parser is not yet able to parse "SPIRALCURVE".'];
         yield Parser::POLYHEDRAL_SURFACE => [Parser::POLYHEDRAL_SURFACE, 'The LongitudeOne\Geo\WKT\Parser is not yet able to parse "POLYHDRLSURFACE".'];
-        yield Parser::TRIANGLE => [Parser::TRIANGLE, 'The LongitudeOne\Geo\WKT\Parser is not yet able to parse "TRIANGLE".'];
         yield Parser::TIN => [Parser::TIN, 'The LongitudeOne\Geo\WKT\Parser is not yet able to parse "TIN".'];
     }
 
