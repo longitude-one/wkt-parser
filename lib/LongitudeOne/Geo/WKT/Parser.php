@@ -149,8 +149,9 @@ class Parser
         }
 
         if ($this->lexer->isNextTokenAny([Lexer::T_Z, Lexer::T_M, Lexer::T_ZM])) {
+            /* @phpstan-ignore-next-line TOKEN is T_Z, T_M, or T_ZM so type is set */
             $this->match($this->lexer->lookahead->type);
-            // TOKEN is T_Z, T_M, or T_ZM, so dimension is a string 'Z', 'M' or 'ZM'
+            /* @phpstan-ignore-next-line TOKEN is T_Z, T_M, or T_ZM, so value is returning a string: 'Z', 'M' or 'ZM' */
             $this->dimension = $this->lexer->value();
         }
 
@@ -165,23 +166,23 @@ class Parser
             self::MULTI_POLYGON => $this->multiPolygon(),
             self::POINT => $this->point(),
             self::POLYGON => $this->polygon(),
+            self::TRIANGLE => $this->triangle(), // PostGis ✅, MySQL ❌
 
-            // Not implemented types in longitude-one/geo-parser
-            self::BREP_SOLID, // Not implemented in PostGis, nor in MySQL
-            self::CIRCLE, // Not implemented in PostGis, nor in MySQL
-            self::CLOTHOID, // Not implemented in PostGis, nor in MySQL
-            self::COMPOUND_CURVE, // Not implemented in PostGis, nor in MySQL
-            self::COMPOUND_SURFACE, // Not implemented in PostGis, nor in MySQL
-            self::CURVE_POLYGON, // Implemented in PostGis, but in MySQL
-            self::ELLIPTICAL_CURVE, // Not implemented in PostGis, nor in MySQL
-            self::GEODESIC_STRING, // Not implemented in PostGis, nor in MySQL
-            self::MULTI_CURVE, // Implemented in PostGis and in MySQL
-            self::MULTI_SURFACE, // Implemented in PostGis and in MySQL
-            self::NURBS_CURVE, // Not implemented in PostGis, nor in MySQL
-            self::SPIRAL_CURVE, // Not implemented in PostGis, nor in MySQL
-            self::POLYHEDRAL_SURFACE, // Implemented in PostGis, but in MySQL
-            self::TIN,
-            self::TRIANGLE => throw new NotYetImplementedException($type),
+            // ❌ Not implemented types in longitude-one/geo-parser
+            self::BREP_SOLID, // PostGis ❌, MySQL ❌
+            self::CIRCLE, // PostGis ❌, MySQL ❌
+            self::CLOTHOID, // PostGis ❌, MySQL ❌
+            self::COMPOUND_CURVE, // PostGis ❌, MySQL ❌
+            self::COMPOUND_SURFACE, // PostGis ❌, MySQL ❌
+            self::CURVE_POLYGON, // PostGis ✅, MySQL ❌
+            self::ELLIPTICAL_CURVE, // PostGis ❌, MySQL ❌
+            self::GEODESIC_STRING, // PostGis ❌, MySQL ❌
+            self::MULTI_CURVE, // PostGis ✅, MySQL ✅
+            self::MULTI_SURFACE, // PostGis ✅, MySQL ✅
+            self::NURBS_CURVE, // PostGis ❌, MySQL ❌
+            self::SPIRAL_CURVE, // PostGis ❌, MySQL ❌
+            self::POLYHEDRAL_SURFACE, // PostGis ✅, MySQL ❌
+            self::TIN, => throw new NotYetImplementedException($type), // PostGis ✅, MySQL ❌
 
             // @see ISO13249-3 Chapter 4.2 §2 page 11
             // Curve, geometry, solid and surface aren't instantiable!
@@ -389,11 +390,35 @@ class Parser
         $this->match(Lexer::T_EQUALS);
         $this->match(Lexer::T_INTEGER);
 
+        /** @var int $srid because we just match a Lexer::T_INTEGER */
         $srid = $this->lexer->value();
 
         $this->match(Lexer::T_SEMICOLON);
 
         return $srid;
+    }
+
+    /**
+     * Match TRIANGLE value.
+     *
+     * @return (int|string)[][]
+     */
+    protected function triangle(): array
+    {
+        // TRIANGLE ((0 0, 0 9, 9 0, 0 0))
+        $this->match(Lexer::T_OPEN_PARENTHESIS);
+        $pointList = $this->pointList();
+        $this->match(Lexer::T_CLOSE_PARENTHESIS);
+
+        if (4 !== count($pointList)) {
+            throw new UnexpectedValueException(sprintf('According to the ISO-13249 specification, a triangle is a closed ring with fourth points, you provided %d.', count($pointList)));
+        }
+
+        if ($pointList[0] !== $pointList[3]) {
+            throw new UnexpectedValueException(sprintf('According to the ISO-13249 specification, a triangle is a closed ring with fourth points. Your first point is "%s", the fourth is "%s"', implode(' ', $pointList[0]), implode(' ', $pointList[3])));
+        }
+
+        return $pointList;
     }
 
     /**
@@ -403,7 +428,7 @@ class Parser
     {
         $this->match(Lexer::T_TYPE);
 
-        return $this->lexer->value();
+        return (string) $this->lexer->value();
     }
 
     /**

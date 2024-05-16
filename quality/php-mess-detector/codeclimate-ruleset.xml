@@ -5,7 +5,7 @@
          xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
          xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
     <description>
-        Specific custom rule set that checks longitude-one/geo-parser test code.
+        Specific custom rule set that checks longitude-one/wkt-parser test code.
     </description>
     <!-- Import the entire unused code rule set, but UnusedPrivateMethod -->
     <rule ref="rulesets/unusedcode.xml" />
@@ -13,8 +13,6 @@
     <rule ref="rulesets/codesize.xml">
         <!-- Exclude the ExcessiveMethodLength rule, because there are never too many tests in provider -->
         <exclude name="ExcessiveMethodLength"/>
-        <!-- Exclude the TooManyPublicMethods rule, because there are never too many tests -->
-        <exclude name="TooManyPublicMethods"/>
     </rule>
     <rule ref="rulesets/codesize.xml/ExcessiveMethodLength">
         <properties>
