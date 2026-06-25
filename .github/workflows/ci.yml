@@ -15,7 +15,7 @@ permissions:
 jobs:
     stable-build:
         runs-on: ubuntu-latest
-        name: PHP 8.3 - Doctrine Lexer 3.0
+        name: PHP 8.5 - Doctrine Lexer 3.0
         env:
             HAS_CC_SECRET: ${{secrets.CC_TEST_REPORTER_ID != '' }}
             HAS_CA_SECRET: ${{secrets.COVERALLS_REPO_TOKEN != '' }}
@@ -40,10 +40,10 @@ jobs:
                   restore-keys: |
                       ${{ format('{0}-php-lexer-stable-', runner.os) }}
 
-            - name: Set up PHP 8.3
+            - name: Set up PHP 8.5
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: 8.3
+                  php-version: 8.5
                   coverage: pcov
                   tools: composer:v2
 
@@ -59,7 +59,7 @@ jobs:
               env:
                   CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
               with:
-                  coverageCommand: vendor/bin/phpunit --coverage-clover=.phpunit.cache/clover-8.3.xml
+                  coverageCommand: vendor/bin/phpunit --coverage-clover=.phpunit.cache/clover-8.5.xml
                   coverageLocations: ${{github.workspace}}/.phpunit.cache/clover*.xml:clover
 
             - name: Run tests for forks
@@ -71,7 +71,7 @@ jobs:
               uses: coverallsapp/github-action@v2
               with:
                   github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
-                  file: ${{github.workspace}}/.phpunit.cache/clover-8.3.xml
+                  file: ${{github.workspace}}/.phpunit.cache/clover-8.5.xml
 
             ## Quality checks
             ## PHP-CS-Fixer
@@ -126,11 +126,11 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [ '8.1', '8.2', '8.3' ]
+                php: [ '8.1', '8.2', '8.3', '8.4', '8.5' ]
                 lexer: [ '2.1', '3.0']
                 exclude:
                     # Already tested
-                    - php: '8.3'
+                    - php: '8.5'
                       lexer: '3.0'
 
         name: PHP ${{ matrix.php }} - Doctrine Lexer ${{ matrix.lexer }}
