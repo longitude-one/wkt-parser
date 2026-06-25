@@ -71,7 +71,7 @@ class Parser
      *
      * return an array of                point            ,linestring|multipoint,multilinestring|polygon, multipolygon      , geometry collection.
      *
-     * @return array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]}
+     * @return array{dimension: string|null, srid: int|null, type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]}
      */
     public function parse(?string $input = null): array
     {
