@@ -3,10 +3,10 @@
 /**
  * This file is part of the LongitudeOne WKT-Parser project.
  *
- * PHP 8.1 | 8.2 | 8.3
+ * PHP 8.1 - 8.5
  *
  * Copyright LongitudeOne - Alexandre Tranchant - Derek J. Lambert.
- * Copyright 2024.
+ * Copyright 2024-2026.
  *
  */
 
@@ -71,7 +71,7 @@ class Parser
      *
      * return an array of                point            ,linestring|multipoint,multilinestring|polygon, multipolygon      , geometry collection.
      *
-     * @return array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]}
+     * @return array{dimension: string|null, srid: int|null, type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]}
      */
     public function parse(?string $input = null): array
     {
