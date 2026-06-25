@@ -21,7 +21,7 @@ jobs:
             HAS_CA_SECRET: ${{secrets.COVERALLS_REPO_TOKEN != '' }}
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Validate composer.json
               run: composer validate --strict
@@ -33,7 +33,7 @@ jobs:
 
             - name: Cache Composer packages
               id: composer-cache-stable
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: vendor
                   key: ${{ format('{0}_php_lexer_stable_', runner.os, hashFiles('**/composer.lock')) }}
@@ -77,7 +77,7 @@ jobs:
             ## PHP-CS-Fixer
             - name: Cache Composer PHP-CS-FIXER packages
               id: composer-phpcsfixer-cache
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: quality/php-cs-fixer/vendor/
                   key: ${{ format('{0}-phpcsfixer-{1}', runner.os, hashFiles('**/composer.lock')) }}
@@ -93,7 +93,7 @@ jobs:
             ## PHP-MESS-DETECTOR
             - name: Cache Composer PHP-MESS-DETECTOR packages
               id: composer-phpmd-cache
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: quality/php-cs-fixer/vendor/
                   key: ${{ format('{0}-phpmd-{1}', runner.os, hashFiles('**/composer.lock')) }}
@@ -109,7 +109,7 @@ jobs:
             ## PHP-STAN
             - name: Cache Composer PHP-STAN packages
               id: composer-php-stan-cache
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: quality/php-cs-fixer/vendor/
                   key: ${{ format('{0}-phpstan-{1}', runner.os, hashFiles('**/composer.lock')) }}
@@ -140,7 +140,7 @@ jobs:
 
             - name: Cache Composer packages
               id: composer-cache-old
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: vendor
                   key: ${{ format('{0}-php-{1}-lexer-{2}-{3}', runner.os, matrix.php, matrix.lexer, hashFiles('**/composer.lock')) }}
@@ -173,7 +173,7 @@ jobs:
 
             - name: Cache Composer packages
               id: composer-cache-x-dev
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: vendor
                   key: ${{ format('{0}-php-{1}-lexer-x-dev-{2}', runner.os, matrix.php, hashFiles('**/composer.lock')) }}
