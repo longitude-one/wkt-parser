@@ -17,8 +17,7 @@ jobs:
         runs-on: ubuntu-latest
         name: PHP 8.5 - Doctrine Lexer 3.0
         env:
-            HAS_CC_SECRET: ${{secrets.CC_TEST_REPORTER_ID != '' }}
-            HAS_CA_SECRET: ${{secrets.COVERALLS_REPO_TOKEN != '' }}
+            HAS_CC_SECRET: ${{secrets.CODECOV_TOKEN != '' }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v7
@@ -54,24 +53,25 @@ jobs:
               run: composer show
 
             - name: Run test with coverage
-              uses: paambaati/codeclimate-action@v5.0.0
+              # uses: paambaati/codeclimate-action@v5.0.0
               if: env.HAS_CC_SECRET == 'true'
-              env:
-                  CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-              with:
-                  coverageCommand: vendor/bin/phpunit --coverage-clover=.phpunit.cache/clover-8.5.xml
-                  coverageLocations: ${{github.workspace}}/.phpunit.cache/clover*.xml:clover
-
+              # env:
+              #     CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+              # with:
+              #     coverageCommand: vendor/bin/phpunit --coverage-clover=.phpunit.cache/clover-8.5.xml
+              #     coverageLocations: ${{github.workspace}}/.phpunit.cache/clover*.xml:clover
+              run: vendor/bin/phpunit --coverage-clover=.phpunit.cache/clover-8.5.xml
             - name: Run tests for forks
               if: env.HAS_CC_SECRET != 'true'
               run: vendor/bin/phpunit
 
-            - name: Coveralls.io steps
-              if: ${{ env.HAS_CA_SECRET == 'true' }}
-              uses: coverallsapp/github-action@v2
+            - name: Codecov steps
+              if: ${{ env.HAS_CC_SECRET == 'true' }}
+              uses: codecov/codecov-action@v4
               with:
-                  github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
-                  file: ${{github.workspace}}/.phpunit.cache/clover-8.5.xml
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  files: .phpunit.cache/clover-8.5.xml
+                  slug: longitude-one/wkt-parser
 
             ## Quality checks
             ## PHP-CS-Fixer
