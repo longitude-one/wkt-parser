@@ -17,6 +17,7 @@ namespace LongitudeOne\Geo\WKT\Tests;
 use LongitudeOne\Geo\WKT\Exception\NotExistentException;
 use LongitudeOne\Geo\WKT\Exception\NotInstantiableException;
 use LongitudeOne\Geo\WKT\Exception\UnexpectedValueException;
+use LongitudeOne\Geo\WKT\Lexer;
 use LongitudeOne\Geo\WKT\Parser;
 use LongitudeOne\Geo\WKT\Tests\Utils\SpecificTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -105,6 +106,18 @@ class ParserTest extends SpecificTestCase
         $parser = new Parser($garbage);
         self::expectException(NotExistentException::class);
         self::expectExceptionMessage($message);
+        $parser->parse();
+    }
+
+    public function testUnexpectedType(): void
+    {
+        $lexer = $this->createMock(Lexer::class);
+        $lexer->method('value')
+              ->willReturn('foo');
+
+        $parser = new Parser('foo(10 10)');
+        self::expectException(NotExistentException::class);
+        self::expectExceptionMessage('According the ISO 13249-3:2016 standard, the "foo" type does not exist.');
         $parser->parse();
     }
 }
