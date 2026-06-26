@@ -107,9 +107,6 @@ class Lexer extends AbstractLexer
         return ['\s+'];
     }
 
-    /**
-     * @param int|float|string $value
-     */
     protected function getType(int|float|string &$value): int
     {
         if (is_numeric($value)) {
