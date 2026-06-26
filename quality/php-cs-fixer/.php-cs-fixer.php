@@ -54,6 +54,7 @@ return $config->setRules([
         ],
         'sort_algorithm' => 'alpha',
     ],
+    'declare_strict_types' => true,
     ])
     ->setFinder($finder)
     ->setCacheFile(__DIR__.'/.php_cs.cache')
