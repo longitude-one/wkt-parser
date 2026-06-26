@@ -114,9 +114,10 @@ class ParserTest extends SpecificTestCase
         $lexer = $this->createMock(Lexer::class);
         $lexer->method('value')
               ->willReturn('foo');
+
         $parser = $this->getMockBuilder(Parser::class)
                        ->setConstructorArgs(['foo(10 10)'])
-                       ->onlyMethods(['match','type'])
+                       ->onlyMethods(['match', 'type'])
                        ->getMock();
         $parser->method('type')
                ->willReturnOnConsecutiveCalls('foo');
