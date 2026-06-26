@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the LongitudeOne WKT-Parser project.
  *
@@ -70,6 +72,12 @@ class ExceptionTest extends TestCase
         $toParse = sprintf('%s(42 42)', $notInstantiableType);
 
         (new Parser($toParse))->parse();
+    }
+
+    public function testNotInstantiableException(): void
+    {
+        $exception = new NotInstantiableException('foo');
+        self::assertSame('According the ISO 13249-3:2016 standard, the "foo" type is not instantiable.', $exception->getMessage());
     }
 
     #[DataProvider('notYetImplementedTypes')]

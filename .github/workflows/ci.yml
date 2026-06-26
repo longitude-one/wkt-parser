@@ -9,6 +9,10 @@ on:
             - main
             - dev
 
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
 permissions:
     contents: read
 
@@ -67,7 +71,7 @@ jobs:
 
             - name: Codecov steps
               if: ${{ env.HAS_CC_SECRET == 'true' }}
-              uses: codecov/codecov-action@v4
+              uses: codecov/codecov-action@v7
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
                   files: .phpunit.cache/clover-8.5.xml
@@ -136,7 +140,7 @@ jobs:
         name: PHP ${{ matrix.php }} - Doctrine Lexer ${{ matrix.lexer }}
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Cache Composer packages
               id: composer-cache-old
@@ -179,7 +183,7 @@ jobs:
         name: PHP ${{ matrix.php }} - Doctrine Lexer ${{ matrix.lexer }}
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Cache Composer packages
               id: composer-cache-x-dev

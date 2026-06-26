@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the LongitudeOne WKT-Parser project.
  *
@@ -82,7 +84,7 @@ class Lexer extends AbstractLexer
             return (string) ($this->token->value + 0);
         }
 
-        return $this->token?->value ?? '';
+        return $this->token->value ?? '';
     }
 
     /**
@@ -106,11 +108,15 @@ class Lexer extends AbstractLexer
     }
 
     /**
-     * @param string $value
+     * Because of the compatibility with Doctrine Lexer 2.9,
+     * we CANNOT declare the param type internally.
+     *
+     * @param int|float|string $value
      */
     protected function getType(&$value): int
     {
         if (is_numeric($value)) {
+            /* @phpstan-ignore-next-line */
             $value += 0;
 
             if (is_int($value)) {
@@ -125,8 +131,12 @@ class Lexer extends AbstractLexer
         if (preg_match('/^[a-zA-Z]+$/', $value)) {
             $name = __CLASS__.'::T_'.strtoupper($value);
 
-            if (defined($name) && is_int(constant($name))) {
-                return constant($name);
+            if (defined($name)) {
+                $constantValue = constant($name);
+
+                if (is_int($constantValue)) {
+                    return $constantValue;
+                }
             }
 
             return self::T_STRING;

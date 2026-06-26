@@ -41,7 +41,7 @@ docker compose run --rm app quality/php-stan/vendor/bin/phpstan analyse --config
 
 To add a file at exception baseline:
 ```bash
-docker compose run --rm app quality/php-stan/vendor/bin/phpstan analyse --configuration=quality/php-stan/php-stan.neon lib tests --error-format=table --no-progress --no-interaction --no-ansi --level=9 --generate-baseline quality/php-stan/phpstan-baseline.neon
+docker compose run --rm app quality/php-stan/vendor/bin/phpstan analyse --configuration=quality/php-stan/php-stan.neon lib tests --error-format=table --no-progress --no-interaction --no-ansi --level=9 --memory-limit=256M --generate-baseline quality/php-stan/phpstan-baseline.neon
 ```
 
 ## PHP Mess Detector
