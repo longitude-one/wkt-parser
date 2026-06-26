@@ -107,7 +107,13 @@ class Lexer extends AbstractLexer
         return ['\s+'];
     }
 
-    protected function getType(int|float|string &$value): int
+    /**
+     * Because of the compatibility with Doctrine Lexer 2.9,
+     * we CANNOT declare the param type internally.
+     *
+     * @param int|float|string $value
+     */
+    protected function getType(&$value): int
     {
         if (is_numeric($value)) {
             /* @phpstan-ignore-next-line */
