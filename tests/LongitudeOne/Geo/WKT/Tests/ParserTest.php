@@ -114,8 +114,13 @@ class ParserTest extends SpecificTestCase
         $lexer = $this->createMock(Lexer::class);
         $lexer->method('value')
               ->willReturn('foo');
+        $parser = $this->getMockBuilder(Parser::class)
+                       ->setConstructorArgs(['foo(10 10)'])
+                       ->onlyMethods(['match','type'])
+                       ->getMock();
+        $parser->method('type')
+               ->willReturnOnConsecutiveCalls('foo');
 
-        $parser = new Parser('foo(10 10)');
         self::expectException(NotExistentException::class);
         self::expectExceptionMessage('According the ISO 13249-3:2016 standard, the "foo" type does not exist.');
         $parser->parse();
