@@ -74,6 +74,12 @@ class ExceptionTest extends TestCase
         (new Parser($toParse))->parse();
     }
 
+    public function testNotInstantiableException(): void
+    {
+        $exception = new NotInstantiableException('foo');
+        self::assertSame('According the ISO 13249-3:2016 standard, the "foo" type is not instantiable.', $exception->getMessage());
+    }
+
     #[DataProvider('notYetImplementedTypes')]
     public function testNotYetImplemented(string $notYetImplemented, string $expectedMessage): void
     {
