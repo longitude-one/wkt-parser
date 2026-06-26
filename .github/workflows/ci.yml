@@ -9,6 +9,10 @@ on:
             - main
             - dev
 
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
 permissions:
     contents: read
 
@@ -136,7 +140,7 @@ jobs:
         name: PHP ${{ matrix.php }} - Doctrine Lexer ${{ matrix.lexer }}
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Cache Composer packages
               id: composer-cache-old
@@ -179,7 +183,7 @@ jobs:
         name: PHP ${{ matrix.php }} - Doctrine Lexer ${{ matrix.lexer }}
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Cache Composer packages
               id: composer-cache-x-dev
