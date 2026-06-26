@@ -55,6 +55,9 @@ class Parser
     public const TIN = 'TIN';
     public const TRIANGLE = 'TRIANGLE';
 
+    /**
+     * @var ''|'Z'|'ZM'|null
+     */
     private ?string $dimension = null;
     private ?string $input = null;
     private Lexer $lexer;
@@ -73,7 +76,7 @@ class Parser
      *
      * return an array of                point            ,linestring|multipoint,multilinestring|polygon, multipolygon      , geometry collection.
      *
-     * @return array{dimension: string|null, srid: int|null, type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]}
+     * @return array{type: 'CIRCULARSTRING'|'GEOMETRYCOLLECTION'|'LINESTRING'|'MULTILINESTRING'|'MULTIPOINT'|'MULTIPOLYGON'|'POINT'|'POLYGON'|'TRIANGLE', value: array<array<array<array<array<array<array<array<int|string>|int|string>|int|string>|int|string>|int|string>|int|string>|int|string>|int|string>, srid: int|null, dimension: null}
      */
     public function parse(?string $input = null): array
     {
@@ -140,7 +143,7 @@ class Parser
      * Match a spatial geometry object.
      * return an array of                point            ,linestring|multipoint,multilinestring|polygon, multipolygon      , geometry collection.
      *
-     * @return array{type:string, value: array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]|array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]}
+     * @return array{type: 'CIRCULARSTRING'|'GEOMETRYCOLLECTION'|'LINESTRING'|'MULTILINESTRING'|'MULTIPOINT'|'MULTIPOLYGON'|'POINT'|'POLYGON'|'TRIANGLE', value: array<array<array<array<array<array<array<array<int|string>|int|string>|int|string>|int|string>|int|string>|int|string>|int|string>|int|string>}
      */
     protected function geometry(): array
     {
@@ -210,7 +213,7 @@ class Parser
      *
      * no recursive here, only one level of geometry collection.
      *
-     * @return array{'type':string, 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]
+     * @return array{'type':'CIRCULARSTRING'|'GEOMETRYCOLLECTION'|'LINESTRING'|'MULTILINESTRING'|'MULTIPOINT'|'MULTIPOLYGON'|'POINT'|'POLYGON'|'TRIANGLE', 'value':array<int|string>|array<int|string>[]|array<int|string>[][]|array<int|string>[][][]}[]
      */
     protected function geometryCollection(): array
     {

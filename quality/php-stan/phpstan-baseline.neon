@@ -1,6 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method LongitudeOne\\\\Geo\\\\WKT\\\\Parser\\:\\:geometryCollection\\(\\) should return array\\<array\\{type\\: string, value\\: array\\<array\\<array\\<array\\<int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\}\\> but returns non\\-empty\\-array\\<int\\<0, max\\>, array\\{type\\: string, value\\: array\\<array\\<array\\<array\\<array\\<array\\<int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\|int\\|string\\>\\}\\>\\.$#"
+			message: '#^Method LongitudeOne\\Geo\\WKT\\Parser\:\:geometryCollection\(\) should return array\<array\{type\: ''CIRCULARSTRING''\|''GEOMETRYCOLLECTION''\|''LINESTRING''\|''MULTILINESTRING''\|''MULTIPOINT''\|''MULTIPOLYGON''\|''POINT''\|''POLYGON''\|''TRIANGLE'', value\: array\<array\<array\<array\<int\|string\>\|int\|string\>\|int\|string\>\|int\|string\>\}\> but returns non\-empty\-list\<array\{type\: ''CIRCULARSTRING''\|''GEOMETRYCOLLECTION''\|''LINESTRING''\|''MULTILINESTRING''\|''MULTIPOINT''\|''MULTIPOLYGON''\|''POINT''\|''POLYGON''\|''TRIANGLE'', value\: array\<array\<array\<array\<array\<array\<array\<array\<int\|string\>\|int\|string\>\|int\|string\>\|int\|string\>\|int\|string\>\|int\|string\>\|int\|string\>\|int\|string\>\}\>\.$#'
+			identifier: return.type
 			count: 1
 			path: ../../lib/LongitudeOne/Geo/WKT/Parser.php
